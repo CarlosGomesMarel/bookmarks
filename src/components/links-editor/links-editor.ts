@@ -26,8 +26,20 @@ export default class LinksEditorComponent extends Vue {
     // this.treeData = new Tree(this.sections);
   }
 
-  onChangeName(arg1: any, arg2: any, arg3: any) {
-    console.log("onChangeName", arg1, arg2, arg3);
+  onChangeName(change: any) {
+    if (!change.node) {
+      // Completed.
+      return;
+    }
+
+    const node = change.node;
+    Debug.log("onChangeName", node.name, node.isLeaf, node);
+
+    if (node.isLeaf) {
+      $sectionStore.updateLink(node.parent, node);
+    } else {
+      $sectionStore.updateSection(node);
+    }
   }
 
   onClick(node: any) {

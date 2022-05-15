@@ -2,7 +2,7 @@
   <div>
     <modal
       height="800"
-      width="1000"
+      width="500"
       :clickToClose="false"
       key="links-editor-form"
       name="links-editor-form"

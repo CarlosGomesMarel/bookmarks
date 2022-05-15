@@ -68,12 +68,45 @@ class SectionStore {
     return response;
   }
 
-  public updateSection(section: Section) {
-    const found = this.state.sections.find((item) => item == section);
-    if (!found) {
-      Debug.error("updateSection missing section", section.name, section);
+  public updateLink(parent: Section, child: Link) {
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error("updateSection missing section", parent.name, parent.id);
       return;
     }
+
+    const link = this.findLink(section, child);
+    if (!link) {
+      Debug.error("Did not find", child.name, child.id);
+      return;
+    }
+
+    Debug.log("updateLink", link.name, link.id);
+
+    link.backgroundColor = child.backgroundColor?.trim();
+    link.color = child.color?.trim();
+    link.href = child.href;
+    link.name = child.name;
+    link.tags = child.tags;
+    link.timestamp = child.timestamp;
+
+    this.saveSections();
+  }
+
+  public updateSection(section: Section) {
+    const found = this.findSection(section);
+    if (!found) {
+      Debug.error("updateSection missing section", section.name, section.id);
+      return;
+    }
+
+    Debug.log("updateSection", section.name, section.id);
+
+    found.backgroundColor = section.backgroundColor?.trim();
+    found.color = section.color?.trim();
+    found.name = section.name;
+    found.tags = section.tags;
+    found.timestamp = section.timestamp;
 
     this.saveSections();
   }
