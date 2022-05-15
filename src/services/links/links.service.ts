@@ -20,7 +20,7 @@ export class LinksSevice {
         section.color = colorInfo.color;
       }
 
-      section.links.forEach((link) => {
+      section.children.forEach((link) => {
         if (!link.color) {
           link.backgroundColor = section.backgroundColor;
           link.color = section.color;

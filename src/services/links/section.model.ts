@@ -6,5 +6,6 @@ export interface Section {
   backgroundColor: string;
   color: string;
   timestamp: Date;
-  links: Link[];
+  children: Link[];
+  id: string;
 }

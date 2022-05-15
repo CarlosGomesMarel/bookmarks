@@ -1,80 +1,77 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+import { v4 as uuidv4 } from "uuid";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 import { VueTreeList, Tree, TreeNode } from "vue-tree-list";
 
-import { Link } from "@/services/links";
+import { $sectionStore, Link } from "@/services/links";
 
 @Component({
   name: "links-editor",
   components: {},
 })
 export default class LinksEditorComponent extends Vue {
-  data = new Tree([
-    {
-      name: "Section 1",
-      id: 1000,
-      addTreeNodeDisabled: true,
-      children: [
-        {
-          name: "Node 1 - 1",
-          id: 1001,
-          isLeaf: true,
-        },
-        {
-          name: "Node 1 - 2",
-          id: 1002,
-          isLeaf: true,
-        },
-        {
-          name: "Node 1 - 3",
-          id: 1003,
-          isLeaf: true,
-        },
-      ],
-    },
-    {
-      name: "Section 2",
-      id: 2000,
-      addTreeNodeDisabled: true,
-      children: [
-        {
-          name: "Node 2 - 1",
-          id: 2001,
-          isLeaf: true,
-        },
-        {
-          name: "Node 2 - 2",
-          id: 2002,
-          isLeaf: true,
-        },
-      ],
-    },
-    {
-      name: "Section 3",
-      id: 3000,
-      addTreeNodeDisabled: true,
-      children: [],
-    },
-  ]);
+  get sections() {
+    return $sectionStore.sections;
+  }
+
+  get treeData() {
+    this.prepareTreeMembers();
+    return new Tree(this.sections);
+  }
 
   created() {
     Debug.setDebugModule("links-editor", this);
+    // this.treeData = new Tree(this.sections);
   }
 
-  onChangeName() {
-    // TODO:
+  onChangeName(arg1: any, arg2: any, arg3: any) {
+    console.log("onChangeName", arg1, arg2, arg3);
   }
 
-  onClick() {
-    // TODO:
+  onClick(node: any) {
+    console.log("onClick", node.name, node.id, node.isLeaf);
   }
 
-  onAddNode() {
-    // TODO:
+  onAddNode(arg1: any, arg2: any, arg3: any) {
+    console.log("onAddNode", arg1, arg2, arg3);
   }
 
-  onDeleteNode() {
-    // TODO:
+  onDeleteNode(node: any) {
+    Debug.log("onDeleteNode", node.name, node.name, node.isLeaf);
+
+    if (node.isLeaf) {
+      $sectionStore.removeLink(node.parent, node);
+    } else {
+      $sectionStore.removeSection(node);
+    }
+  }
+
+  onDropNode(arg1: any, arg2: any, arg3: any) {
+    console.log("onDropNode", arg1, arg2, arg3);
+  }
+
+  onDropAfter(arg1: any, arg2: any, arg3: any) {
+    console.log("onDropAfter", arg1, arg2, arg3);
+  }
+
+  private prepareTreeMembers() {
+    this.sections.forEach((section) => {
+      if (!section.id) {
+        section.id = uuidv4();
+      }
+
+      (<any>section).addTreeNodeDisabled = true;
+
+      section.children.forEach((link) => {
+        const before = link.id;
+        if (!link.id) {
+          link.id = uuidv4();
+        }
+
+        (<any>link).isLeaf = true;
+      });
+    });
   }
 }

@@ -5,4 +5,5 @@ export interface Link {
   backgroundColor: string;
   color: string;
   timestamp: Date;
+  id: string;
 }

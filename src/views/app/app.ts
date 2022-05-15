@@ -3,19 +3,22 @@ import { Component, Vue } from "vue-property-decorator";
 import { EventBus } from "@/support/event-bus";
 
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
-import LinksEditorComponent from "@/components/links-editor/links-editor.vue";
+
+import LinksEditorComponent from "@/modals/links-editor-form/links-editor-form.vue";
 import LinksPageComponent from "@/components/links-page/links-page.vue";
 
 @Component({
   components: {
-    "links-editor": LinksEditorComponent,
+    "links-editor-form": LinksEditorComponent,
     "links-page": LinksPageComponent,
   },
 })
 export default class AppComponent extends Vue {
   options = {};
 
-  $refs = {};
+  $refs = {
+    linksEditorForm: {} as Modal,
+  };
 
   helpLink = `mailto:carlos.gomes@marel.com?subject=Bookmarks Help`;
 
@@ -27,7 +30,19 @@ export default class AppComponent extends Vue {
     $appInsightsService.trackPageView("app");
   }
 
-  addLink() {
-    EventBus.Instance.$emit(EventBus.AddLink, true);
+  mounted() {
+    this.showLinksEditorForm();
+  }
+
+  showLinksEditorForm() {
+    if (this.$refs.linksEditorForm) {
+      this.$refs.linksEditorForm.show();
+    }
+  }
+
+  hideLinksEditorForm() {
+    if (this.$refs.linksEditorForm) {
+      this.$refs.linksEditorForm.hide();
+    }
   }
 }

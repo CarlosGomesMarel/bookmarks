@@ -3,7 +3,6 @@ import Vue from "vue";
 const eventBusInstance = new Vue();
 
 export const EventBus = {
-  AddLink: "addLink",
   Changed: "changed",
   Deleted: "deleted",
   Loaded: "loaded",

@@ -1,14 +1,19 @@
+<!--
+      @delete-node="onDeleteNode"
+      @add-node="onAddNode"
+      @drop="onDropNode"
+      @drop-after="onDropAfter"
+-->
 <template>
   <div class="links-editor">
     <vue-tree-list
       @click="onClick"
       @change-name="onChangeName"
       @delete-node="onDeleteNode"
-      @add-node="onAddNode"
-      :model="data"
+      :model="treeData"
       default-tree-node-name="new node"
       default-leaf-node-name="new leaf"
-      v-bind:default-expanded="false"
+      :default-expanded="true"
     >
       <template v-slot:leafNameDisplay="slotProps">
         <span>
