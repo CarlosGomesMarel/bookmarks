@@ -17,18 +17,32 @@ interface Section {
   },
 })
 export default class LinksPageComponent extends Vue {
-  public links: Link[] = [];
+  private links: Link[] = [];
+  private recentLinks: Link[] = [];
 
   get sections() {
     const sections: Section[] = [];
-    sections.push({
-      name: "Recent",
-      links: [],
-    });
+
+    if (this.recentLinks.length) {
+      sections.push({
+        name: "Recent",
+        links: this.recentLinks,
+      });
+    }
+
+    const pinned = this.links.filter((item) => item.pinned);
+    if (pinned.length) {
+      sections.push({
+        name: "Quick Links",
+        links: pinned,
+      });
+    }
+
+    const unPinnedLinks = this.links.filter((item) => !item.pinned);
 
     const sectionTags = new Set(
-      this.links
-        .filter((item) => item.tags && item.tags.length)
+      unPinnedLinks
+        .filter((item) => !item.pinned && item.tags && item.tags.length)
         .map((item) => {
           item.section = item.tags.join(" ");
           return item.section;
@@ -36,7 +50,7 @@ export default class LinksPageComponent extends Vue {
     );
 
     sectionTags.forEach((section) => {
-      const links = this.links.filter(
+      const links = unPinnedLinks.filter(
         (item) => item.tags && item.section === section
       );
 
@@ -46,7 +60,7 @@ export default class LinksPageComponent extends Vue {
       });
     });
 
-    const noTags = this.links.filter(
+    const noTags = unPinnedLinks.filter(
       (item) => !item.tags || item.tags.length == 0
     );
     if (noTags.length) {
@@ -63,6 +77,6 @@ export default class LinksPageComponent extends Vue {
     Debug.setDebugModule("links-page", this);
 
     this.links = $linksService.links();
-    Debug.log("links", this.links);
+    this.recentLinks = $linksService.recentLinks();
   }
 }

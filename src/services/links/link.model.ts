@@ -6,4 +6,5 @@ export interface Link {
   background: string;
   color: string;
   timestamp: Date;
+  pinned: boolean;
 }

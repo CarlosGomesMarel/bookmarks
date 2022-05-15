@@ -23,6 +23,21 @@ export class LinksSevice {
     return links;
   }
 
+  /**
+   * Fetch recent links.
+   */
+  recentLinks() {
+    const links = LocalData.get("recentLinks", []) as Link[];
+    links.forEach((link) => {
+      if (!link.color) {
+        const colorInfo = this.getColorInfo();
+        link.background = colorInfo.background;
+        link.color = colorInfo.color;
+      }
+    });
+    return links;
+  }
+
   private getColorInfo() {
     if (useRandomColor) {
       const colors = Object.keys(LinkColors).map((key) => LinkColors[key]);
