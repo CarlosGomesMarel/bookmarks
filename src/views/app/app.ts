@@ -25,4 +25,8 @@ export default class AppComponent extends Vue {
     $appInsightsService.setVueInstance((this as any).$appInsights);
     $appInsightsService.trackPageView("app");
   }
+
+  addLink() {
+    EventBus.Instance.$emit(EventBus.AddLink, true);
+  }
 }

@@ -5,7 +5,7 @@
       <div class="link-wrapper" :key="'section-wrapper-' + sectionIdx">
         <template v-for="(link, index) in section.links">
           <div class="link-container" :key="'link-' + index">
-            <link-form :link="link" />
+            <link-form :link="link" @changed="onLinkChanged" />
           </div>
         </template>
       </div>

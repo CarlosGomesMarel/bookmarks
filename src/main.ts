@@ -51,13 +51,14 @@ import {
   faFileExcel,
   faFileExport,
   faHome,
+  faPlus,
   faQuestion,
   faRefresh,
   faSave,
   faSpinner,
   faShareSquare,
-  faTrash,
   faThumbtack,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -70,6 +71,7 @@ library.add(
   faFileExcel,
   faFileExport,
   faHome,
+  faPlus,
   faQuestion,
   faRefresh,
   faSave,

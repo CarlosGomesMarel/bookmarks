@@ -1,9 +1,11 @@
 <template>
   <div id="app" class="app">
     <div class="header">
-      <h3>Bookmarks</h3>
-
       <span></span>
+
+      <button class="btn btn-link" @click="addLink" title="Add link">
+        <font-awesome-icon icon="plus" />
+      </button>
 
       <a :href="helpLink" title="Contact Support" target="_blank">
         <font-awesome-icon icon="question" />

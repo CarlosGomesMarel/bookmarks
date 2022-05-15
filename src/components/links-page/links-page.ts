@@ -4,6 +4,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { $linksService, Link } from "@/services/links";
 
 import LinkFormComponent from "@/components/link-form/link-form.vue";
+import LocalData from "@/support/local-storage";
 
 interface Section {
   name: string;
@@ -78,5 +79,12 @@ export default class LinksPageComponent extends Vue {
 
     this.links = $linksService.links();
     this.recentLinks = $linksService.recentLinks();
+  }
+
+  onLinkChanged(link: Link) {
+    // TODO: Update
+    // Consider moving the link within its section.
+    // For example toggling PIN should move the link to end of section.
+    LocalData.save("links", this.links);
   }
 }

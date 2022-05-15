@@ -16,9 +16,11 @@ export default class LinkFormComponent extends Vue {
 
   editLink() {
     // TODO:
+    this.$emit("changed", this.link);
   }
 
   pinLink() {
-    // TODO:
+    this.link.pinned = !this.link.pinned;
+    this.$emit("changed", this.link);
   }
 }
