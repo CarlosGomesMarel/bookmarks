@@ -1,14 +1,23 @@
 @import "@/colors.scss";
 
 .link-form {
-  max-width: 800px;
-
   .link-url {
     min-width: 10rem;
     /* max-width: 18rem; Used if have description */
-    margin-bottom: 0.25em;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
     margin-left: 0;
   }
+}
+
+.link-form .edit-link-btn {
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  padding-left: 0.25rem;
+}
+
+.link-form:hover .edit-link-btn {
+  visibility: visible;
 }
