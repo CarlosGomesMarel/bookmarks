@@ -27,3 +27,4 @@ declare let Debug: DebugModule;
 
 declare module "element-ui/lib/locale/lang/en";
 declare module "vue-select";
+declare module "vue-tree-list";

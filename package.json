@@ -27,7 +27,8 @@
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.5.1",
     "vue-select": "^3.18.3",
-    "vue-toastification": "^1.7.14"
+    "vue-toastification": "^1.7.14",
+    "vue-tree-list": "^1.5.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",

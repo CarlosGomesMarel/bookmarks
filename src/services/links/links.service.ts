@@ -3,24 +3,31 @@
 import LocalData from "@/support/local-storage";
 import Util from "@/utility";
 
-import { Link, LinkColors } from ".";
+import { Link, LinkColors, Section } from ".";
 
 const useRandomColor = false;
 
 export class LinksSevice {
   /**
-   * Fetch links.
+   * Fetch sections.
    */
-  links() {
-    const links = LocalData.get("links", []) as Link[];
-    links.forEach((link) => {
-      if (!link.color) {
+  sections() {
+    const sections = LocalData.get("links", []) as Section[];
+    sections.forEach((section) => {
+      if (!section.color) {
         const colorInfo = this.getColorInfo();
-        link.background = colorInfo.background;
-        link.color = colorInfo.color;
+        section.backgroundColor = colorInfo.background;
+        section.color = colorInfo.color;
       }
+
+      section.links.forEach((link) => {
+        if (!link.color) {
+          link.backgroundColor = section.backgroundColor;
+          link.color = section.color;
+        }
+      });
     });
-    return links;
+    return sections;
   }
 
   /**
@@ -31,7 +38,7 @@ export class LinksSevice {
     links.forEach((link) => {
       if (!link.color) {
         const colorInfo = this.getColorInfo();
-        link.background = colorInfo.background;
+        link.backgroundColor = colorInfo.background;
         link.color = colorInfo.color;
       }
     });

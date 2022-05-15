@@ -1,8 +1,10 @@
-export interface Link {
+import { Link } from ".";
+
+export interface Section {
   name: string;
-  href: string;
   tags: string[];
   backgroundColor: string;
   color: string;
   timestamp: Date;
+  links: Link[];
 }

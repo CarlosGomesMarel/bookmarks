@@ -41,6 +41,9 @@ const options = {
 };
 Vue.use(Toast, options);
 
+import VueTreeList from "vue-tree-list";
+Vue.use(VueTreeList);
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faBug,
@@ -50,13 +53,15 @@ import {
   faFileCsv,
   faFileExcel,
   faFileExport,
+  faFolder,
   faHome,
+  faLink,
   faPlus,
   faQuestion,
   faRefresh,
   faSave,
-  faSpinner,
   faShareSquare,
+  faSpinner,
   faThumbtack,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -70,13 +75,15 @@ library.add(
   faFileCsv,
   faFileExcel,
   faFileExport,
+  faFolder,
   faHome,
+  faLink,
   faPlus,
   faQuestion,
   faRefresh,
   faSave,
-  faSpinner,
   faShareSquare,
+  faSpinner,
   faThumbtack,
   faTrash
 );

@@ -9,21 +9,11 @@
       class="btn link-url"
       role="button"
       :style="{
-        backgroundColor: link.background,
+        backgroundColor: link.backgroundColor,
         color: link.color + ' !important',
       }"
       >{{ link.name }}
     </a>
-
-    <div class="edit-link-btn">
-      <button class="btn btn-link" @click="pinLink" title="Pin">
-        <font-awesome-icon icon="thumbtack" />
-      </button>
-
-      <button class="btn btn-link" @click="editLink" title="Edit link">
-        <font-awesome-icon icon="edit" />
-      </button>
-    </div>
   </div>
 </template>
 

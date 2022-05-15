@@ -13,6 +13,7 @@
     </div>
 
     <div class="app-content">
+      <links-editor />
       <links-page />
     </div>
   </div>

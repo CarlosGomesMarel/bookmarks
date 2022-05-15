@@ -1,13 +1,14 @@
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
-import Browser from "@/support/browser";
 import { EventBus } from "@/support/event-bus";
 
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
+import LinksEditorComponent from "@/components/links-editor/links-editor.vue";
 import LinksPageComponent from "@/components/links-page/links-page.vue";
 
 @Component({
   components: {
+    "links-editor": LinksEditorComponent,
     "links-page": LinksPageComponent,
   },
 })
