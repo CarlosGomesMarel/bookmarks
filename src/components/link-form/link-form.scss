@@ -1,0 +1,18 @@
+@import "@/colors.scss";
+
+.link-form {
+  max-width: 800px;
+
+  .link-url {
+    min-width: 10rem;
+    /* max-width: 18rem; Used if have description */
+    margin-bottom: 0.25em;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0;
+  }
+
+  a {
+    color: white !important;
+  }
+}

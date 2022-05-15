@@ -10,17 +10,6 @@ const routes: Array<RouteConfig> = [
     name: "home",
     component: AppComponent,
   },
-  {
-    path: "/telemetry/:hashCode",
-    name: "telemetry",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "telemetry" */ "@/views/telemetry/telemetry.vue"
-      ),
-  },
 ];
 
 const router = new VueRouter({
