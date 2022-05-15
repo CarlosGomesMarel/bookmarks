@@ -26,18 +26,22 @@ export default class LinksPageComponent extends Vue {
       links: [],
     });
 
-    const tags = this.links
-      .filter((item) => item.tags && item.tags.length)
-      .map((item) => item.tags)
-      .flat();
+    const sectionTags = new Set(
+      this.links
+        .filter((item) => item.tags && item.tags.length)
+        .map((item) => {
+          item.section = item.tags.join(" ");
+          return item.section;
+        })
+    );
 
-    tags.forEach((tag) => {
+    sectionTags.forEach((section) => {
       const links = this.links.filter(
-        (item) => item.tags && item.tags.indexOf(tag) !== -1
+        (item) => item.tags && item.section === section
       );
 
       sections.push({
-        name: tag,
+        name: section,
         links: links,
       });
     });

@@ -23,7 +23,14 @@ function parseValue(rawValue: string) {
     // Replace server-side written pluses with spaces.
     // If we can't decode the cookie, ignore it, it's unusable.
     // If we can't parse the cookie, ignore it, it's unusable.
-    rawValue = decodeURIComponent(rawValue.replace(pluses, " "));
+    const decodedValue = decodeURIComponent(rawValue.replace(pluses, " "));
+    return JSON.parse(decodedValue);
+  } catch (e) {
+    // console.error("parseValue", e);
+    // console.log(rawValue);
+  }
+
+  try {
     return JSON.parse(rawValue);
   } catch (e) {
     // console.error("parseValue", e);
