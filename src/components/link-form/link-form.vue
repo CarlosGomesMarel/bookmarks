@@ -8,7 +8,10 @@
       :title="link.href"
       class="btn link-url"
       role="button"
-      :style="{ backgroundColor: link.color }"
+      :style="{
+        backgroundColor: link.background,
+        color: link.color + ' !important',
+      }"
       >{{ link.name }}</a
     >
   </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default class Util {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static parseInt(value: any) {
@@ -101,6 +102,10 @@ export default class Util {
 
   static getRandomBool() {
     return Util.getRandomInt(100) >= 50;
+  }
+
+  static getRandomElement<T>(items: T[]) {
+    return items[Math.floor(Math.random() * items.length)];
   }
 
   static randomString(length = 10) {
