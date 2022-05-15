@@ -1,6 +1,9 @@
 @import "@/colors.scss";
 
 .link-form {
+  display: flex;
+  flex-direction: row;
+
   .link-url {
     min-width: 10rem;
     /* max-width: 18rem; Used if have description */
@@ -13,9 +16,17 @@
 
 .link-form .edit-link-btn {
   visibility: hidden;
-  margin: 0;
-  padding: 0;
   padding-left: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  width: 2rem;
+
+  .btn {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .link-form:hover .edit-link-btn {

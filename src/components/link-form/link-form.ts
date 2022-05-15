@@ -17,4 +17,8 @@ export default class LinkFormComponent extends Vue {
   editLink() {
     // TODO:
   }
+
+  pinLink() {
+    // TODO:
+  }
 }

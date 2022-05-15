@@ -57,6 +57,7 @@ import {
   faSpinner,
   faShareSquare,
   faTrash,
+  faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -74,6 +75,7 @@ library.add(
   faSave,
   faSpinner,
   faShareSquare,
+  faThumbtack,
   faTrash
 );
 Vue.component("font-awesome-icon", FontAwesomeIcon);
