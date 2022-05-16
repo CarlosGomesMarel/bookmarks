@@ -17,7 +17,7 @@
     </div>
 
     <div class="app-content">
-      <bookmarks-editor v-if="showEditor" ref="linksEditorForm" />
+      <bookmarks-editor v-if="showEditor" @close="onCloseEditor" />
       <bookmarks-page v-else />
     </div>
   </div>

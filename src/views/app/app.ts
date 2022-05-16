@@ -22,7 +22,7 @@ export default class AppComponent extends Vue {
 
   helpLink = `mailto:carlos.gomes@marel.com?subject=Bookmarks Help`;
 
-  showEditor = true;
+  showEditor = false;
 
   created() {
     Debug.setDebugModule("app", this);
@@ -34,5 +34,9 @@ export default class AppComponent extends Vue {
 
   showBookmarksEditor() {
     this.showEditor = true;
+  }
+
+  onCloseEditor() {
+    this.showEditor = false;
   }
 }

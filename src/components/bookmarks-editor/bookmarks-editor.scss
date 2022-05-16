@@ -4,14 +4,26 @@
   display: grid;
   grid-template-rows: auto auto;
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #0072c6;
+    font-family: "Segoe UI Light", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial,
+      sans-serif;
+    margin: 0;
+  }
+
   .editors {
     display: grid;
     grid-template-columns: 30rem 30rem 1fr;
-    margin: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
     width: 90vw;
 
     .editor-column {
-      margin: 1rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
 
       h5 {
         margin-top: 1rem;

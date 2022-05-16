@@ -13,9 +13,4 @@ export default class LinkFormComponent extends Vue {
   created() {
     Debug.setDebugModule("link-form", this);
   }
-
-  editLink() {
-    // TODO:
-    this.$emit("changed", this.link);
-  }
 }

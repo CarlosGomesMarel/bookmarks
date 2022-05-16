@@ -24,11 +24,4 @@ export default class LinksPageComponent extends Vue {
   created() {
     Debug.setDebugModule("bookmarks-page", this);
   }
-
-  onLinkChanged(link: Link) {
-    // TODO: Update
-    // Consider moving the link within its section.
-    // For example toggling PIN should move the link to end of section.
-    LocalData.save("links", this.sections);
-  }
 }

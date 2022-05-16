@@ -2,12 +2,12 @@
   <div class="bookmarks-editor">
     <div class="editors">
       <div class="editor-column">
-        <h5>Edit Bookmarks</h5>
+        <h3>Edit Bookmarks</h3>
         <links-tree-editor @selected="onSelected" />
       </div>
 
       <div v-if="link" class="editor-column">
-        <h5>Edit link</h5>
+        <h3>Edit link</h3>
         <link-editor :section="section" :link="link" @changed="onLinkChanged" />
       </div>
       <div v-else class="editor-column">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="footer">
-      <button class="btn btn-primary" type="submit">Done</button>
+      <button class="btn btn-primary" type="submit" @click="close">Done</button>
     </div>
   </div>
 </template>

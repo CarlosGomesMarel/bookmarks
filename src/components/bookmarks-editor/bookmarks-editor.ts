@@ -38,4 +38,8 @@ export default class BookmarksEditorComponent extends Vue {
   onLinkChanged(section: Section, link: Link) {
     $bookmarksStore.updateLink(section, link);
   }
+
+  close() {
+    this.$emit("close");
+  }
 }
