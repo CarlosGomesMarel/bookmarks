@@ -2,6 +2,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
 import LinkEditorComponent from "@/components/link-editor/link-editor.vue";
+import SectionEditorComponent from "@/components/section-editor/section-editor.vue";
 
 import { $bookmarksStore, Link, Section } from "@/services/bookmarks";
 
@@ -9,6 +10,7 @@ import { $bookmarksStore, Link, Section } from "@/services/bookmarks";
   components: {
     "links-tree-editor": LinksTreeEditorComponent,
     "link-editor": LinkEditorComponent,
+    "section-editor": SectionEditorComponent,
   },
 })
 export default class BookmarksEditorComponent extends Vue {
@@ -37,6 +39,10 @@ export default class BookmarksEditorComponent extends Vue {
 
   onLinkChanged(section: Section, link: Link) {
     $bookmarksStore.updateLink(section, link);
+  }
+
+  onSectionChanged(section: Section) {
+    $bookmarksStore.updateSection(section);
   }
 
   close() {

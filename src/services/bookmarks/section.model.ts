@@ -1,11 +1,5 @@
-import { Link } from ".";
+import { Bookmark, Link } from ".";
 
-export interface Section {
-  name: string;
-  tags: string[];
-  backgroundColor: string;
-  color: string;
-  timestamp: Date;
+export interface Section extends Bookmark {
   children: Link[];
-  id: string;
 }

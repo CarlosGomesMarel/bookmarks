@@ -1,9 +1,5 @@
-export interface Link {
-  name: string;
+import { Bookmark } from ".";
+
+export interface Link extends Bookmark {
   href: string;
-  tags: string[];
-  backgroundColor: string;
-  color: string;
-  timestamp: Date;
-  id: string;
 }

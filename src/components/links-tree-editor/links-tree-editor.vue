@@ -7,6 +7,9 @@
 <template>
   <div class="links-tree-editor">
     <vue-tree-list
+      @drop="onDropNode"
+      @drop-after="onDropAfter"
+      @drop-before="onDropBefore"
       @click="onClick"
       @delete-node="onDeleteNode"
       :model="treeData"
@@ -31,7 +34,7 @@
       <span class="icon" slot="editNodeIcon"
         ><font-awesome-icon icon="edit"
       /></span>
-      <span class="icon" slot="addTreeNodeIcon"
+      <span class="icon" slot="addLeafNodeIcon"
         ><font-awesome-icon icon="plus"
       /></span>
       <!--

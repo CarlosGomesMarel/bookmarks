@@ -1,36 +1,34 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-import { Link, Section } from "@/services/bookmarks";
+import { Section } from "@/services/bookmarks";
 import ColorPickerComponent from "@/components/color-picker/color-picker.vue";
 
 @Component({
-  name: "link-editor",
+  name: "section-editor",
   components: {
     "color-picker": ColorPickerComponent,
   },
 })
 export default class LinkEditorComponent extends Vue {
   @Prop() private section: Section;
-  @Prop() private link: Link;
-
-  private previousLink: Link;
+  private previousSection: Section;
 
   showNameError = false;
   showUrlError = false;
   disabled = false;
 
-  @Watch("link", { immediate: false, deep: true })
-  onLinkChanged() {
-    if (this.previousLink !== this.link) {
-      // New link has been set.
-      this.previousLink = this.link;
+  @Watch("section", { immediate: false, deep: true })
+  onSectionChanged() {
+    if (this.previousSection !== this.section) {
+      // New section has been set.
+      this.previousSection = this.section;
       return;
     }
-    this.$emit("changed", this.section, this.link);
+    this.$emit("changed", this.section, null);
   }
 
   created() {
-    Debug.setDebugModule("link-editor", this);
+    Debug.setDebugModule("section-editor", this);
   }
 }
