@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import { Link } from "@/services/links";
+import { Link } from "@/services/bookmarks";
 
 @Component({
   name: "link-form",

@@ -5,15 +5,15 @@ import Vue from "vue";
 import { Link, LinkColors, Section } from ".";
 import LocalData from "@/support/local-storage";
 
-interface SectionState {
+interface BookmarksState {
   sections: Section[];
 }
 
-const SectionsKey = "sections";
+const BookmarksKey = "bookmarks";
 const useRandomColor = false;
 
-class SectionStore {
-  private state = Vue.observable<SectionState>({
+class BookmarksStore {
+  private state = Vue.observable<BookmarksState>({
     sections: [],
   });
 
@@ -130,7 +130,7 @@ class SectionStore {
   }
 
   private load() {
-    const sections = <Section[]>LocalData.get(SectionsKey, []);
+    const sections = <Section[]>LocalData.get(BookmarksKey, []);
 
     sections.forEach((section) => {
       if (!section.id) {
@@ -187,9 +187,9 @@ class SectionStore {
   }
 
   private saveSections() {
-    LocalData.save(SectionsKey, JSON.stringify(this.state.sections));
+    LocalData.save(BookmarksKey, JSON.stringify(this.state.sections));
   }
 }
 
-export const $sectionStore = new SectionStore();
-Debug.setDebugModule("sectionStore", $sectionStore);
+export const $bookmarksStore = new BookmarksStore();
+Debug.setDebugModule("bookmarksStore", $bookmarksStore);

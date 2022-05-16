@@ -4,13 +4,13 @@ import { EventBus } from "@/support/event-bus";
 
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
 
-import LinksEditorComponent from "@/modals/links-editor-form/links-editor-form.vue";
-import LinksPageComponent from "@/components/links-page/links-page.vue";
+import LinksTreeEditorComponent from "@/modals/bookmarks-editor-form/bookmarks-editor-form.vue";
+import LinksPageComponent from "@/components/bookmarks-page/bookmarks-page.vue";
 
 @Component({
   components: {
-    "links-editor-form": LinksEditorComponent,
-    "links-page": LinksPageComponent,
+    "bookmarks-editor-form": LinksTreeEditorComponent,
+    "bookmarks-page": LinksPageComponent,
   },
 })
 export default class AppComponent extends Vue {

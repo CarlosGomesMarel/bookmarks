@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { v4 as uuidv4 } from "uuid";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
-import { VueTreeList, Tree, TreeNode } from "vue-tree-list";
+import { Tree } from "vue-tree-list";
 
-import { $sectionStore, Link } from "@/services/links";
+import { $bookmarksStore } from "@/services/bookmarks";
 
 @Component({
-  name: "links-editor",
+  name: "links-tree-editor",
   components: {},
 })
-export default class LinksEditorComponent extends Vue {
+export default class LinksTreeEditorComponent extends Vue {
   get sections() {
-    return $sectionStore.sections;
+    return $bookmarksStore.sections;
   }
 
   get treeData() {
@@ -22,7 +22,7 @@ export default class LinksEditorComponent extends Vue {
   }
 
   created() {
-    Debug.setDebugModule("links-editor", this);
+    Debug.setDebugModule("links-tree-editor", this);
     // this.treeData = new Tree(this.sections);
   }
 
@@ -36,9 +36,9 @@ export default class LinksEditorComponent extends Vue {
     Debug.log("onChangeName", node.name, node.isLeaf, node);
 
     if (node.isLeaf) {
-      $sectionStore.updateLink(node.parent, node);
+      $bookmarksStore.updateLink(node.parent, node);
     } else {
-      $sectionStore.updateSection(node);
+      $bookmarksStore.updateSection(node);
     }
   }
 
@@ -54,9 +54,9 @@ export default class LinksEditorComponent extends Vue {
     Debug.log("onDeleteNode", node.name, node.name, node.isLeaf);
 
     if (node.isLeaf) {
-      $sectionStore.removeLink(node.parent, node);
+      $bookmarksStore.removeLink(node.parent, node);
     } else {
-      $sectionStore.removeSection(node);
+      $bookmarksStore.removeSection(node);
     }
   }
 
@@ -77,7 +77,6 @@ export default class LinksEditorComponent extends Vue {
       (<any>section).addTreeNodeDisabled = true;
 
       section.children.forEach((link) => {
-        const before = link.id;
         if (!link.id) {
           link.id = uuidv4();
         }

@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <links-editor-form ref="linksEditorForm" />
+    <bookmarks-editor-form ref="linksEditorForm" />
 
     <div class="header">
       <span></span>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="app-content">
-      <links-page />
+      <bookmarks-page />
     </div>
   </div>
 </template>

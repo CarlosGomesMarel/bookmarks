@@ -1,5 +1,5 @@
 <template>
-  <div class="links-page">
+  <div class="bookmarks-page">
     <template v-for="(section, sectionIdx) in sections">
       <h3 :key="'section-' + sectionIdx">{{ section.name }}</h3>
       <div class="link-wrapper" :key="'section-wrapper-' + sectionIdx">
@@ -16,5 +16,5 @@
   </div>
 </template>
 
-<style lang="scss" src="./links-page.scss"></style>
-<script src="./links-page.ts"></script>
+<style lang="scss" src="./bookmarks-page.scss"></style>
+<script src="./bookmarks-page.ts"></script>

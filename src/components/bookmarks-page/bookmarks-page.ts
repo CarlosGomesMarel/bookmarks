@@ -1,26 +1,28 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
-import { $linksService, Link, Section } from "@/services/links";
+import { $bookmarksStore, Link } from "@/services/bookmarks";
 
 import LinkFormComponent from "@/components/link-form/link-form.vue";
 import LocalData from "@/support/local-storage";
 
 @Component({
-  name: "links-page",
+  name: "bookmarks-page",
   components: {
     "link-form": LinkFormComponent,
   },
 })
 export default class LinksPageComponent extends Vue {
-  private sections: Section[] = [];
-  private recentLinks: Link[] = [];
+  get sections() {
+    return $bookmarksStore.sections;
+  }
+
+  get recentLinks() {
+    return $bookmarksStore.sections;
+  }
 
   created() {
-    Debug.setDebugModule("links-page", this);
-
-    this.sections = $linksService.sections();
-    this.recentLinks = $linksService.recentLinks();
+    Debug.setDebugModule("bookmarks-page", this);
   }
 
   onLinkChanged(link: Link) {

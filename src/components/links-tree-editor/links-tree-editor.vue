@@ -5,7 +5,7 @@
       @drop-after="onDropAfter"
 -->
 <template>
-  <div class="links-editor">
+  <div class="links-tree-editor">
     <vue-tree-list
       @click="onClick"
       @change-name="onChangeName"
@@ -38,5 +38,5 @@
   </div>
 </template>
 
-<style lang="scss" src="./links-editor.scss"></style>
-<script src="./links-editor.ts"></script>
+<style lang="scss" src="./links-tree-editor.scss"></style>
+<script src="./links-tree-editor.ts"></script>
