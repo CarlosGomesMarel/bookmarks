@@ -28,14 +28,17 @@ interface DropInfo {
   target: TreeNode;
 }
 
-function getNodeName(node: any): string {
-  {
-    if (node.isLeaf) {
-      return `[🍃 ${node.name}]`;
-    }
+interface LinkInfo {
+  section: Section;
+  link: Link;
+}
 
-    return `[ 📂 ${node.name} ]`;
+function getNodeName(node: TreeNode) {
+  if (node.isLeaf) {
+    return `[🍃 ${node.name}]`;
   }
+
+  return `[ 📂 ${node.name} ]`;
 }
 
 @Component({
@@ -141,32 +144,37 @@ export default class LinksTreeEditorComponent extends Vue {
       getNodeName(target)
     );
 
+    // When dragged to different section, the parent is already updated.
+    node.parent = source;
+
+    const [section, link] = this.getSectionLink(node);
+    const destination = this.getSectionLinkInfo(target);
+
     if (node.isLeaf) {
-      this.handleLinkDropped(dropType, node, source, target);
+      if (!section || !link) {
+        Debug.error("Missing section/link for", getNodeName(node), node.id);
+        return;
+      }
+
+      $bookmarksStore.removeLink(section, link, false);
+      this.handleLinkDropped(dropType, link, destination, target);
     } else {
-      // TODO: handle section dropped.
+      if (!section) {
+        Debug.error("Missing section for", getNodeName(node), node.id);
+        return;
+      }
+
+      $bookmarksStore.removeSection(section, false);
+      this.handleSectionDropped(dropType, section, destination.section);
     }
   }
 
   private handleLinkDropped(
     dropType: DropType,
-    node: TreeNode,
-    source: TreeNode,
+    link: Link,
+    destination: LinkInfo,
     target: TreeNode
   ) {
-    // When dragged to different section, the parent is already updated.
-    node.parent = source;
-
-    const [section, link] = this.getSectionLink(node);
-    if (!section || !link) {
-      Debug.error("Missing section/link for", getNodeName(node), node.id);
-      return;
-    }
-
-    const destination = this.getSectionLinkInfo(target);
-
-    $bookmarksStore.removeLink(section, link);
-
     switch (dropType) {
       case DropType.before:
         $bookmarksStore.insertBefore(
@@ -197,7 +205,31 @@ export default class LinksTreeEditorComponent extends Vue {
         return;
 
       default:
-        console.error("Unhandled", dropType, node);
+        console.error("Unhandled", dropType, link);
+        return;
+    }
+  }
+
+  private handleSectionDropped(
+    dropType: DropType,
+    section: Section,
+    target: Section
+  ) {
+    switch (dropType) {
+      case DropType.after:
+        $bookmarksStore.insertSectionAfter(section, target);
+        return;
+
+      case DropType.before:
+        $bookmarksStore.insertSectionBefore(section, target);
+        return;
+
+      case DropType.on:
+        $bookmarksStore.insertSectionBefore(section, target);
+        return;
+
+      default:
+        console.error("Unhandled", dropType, section);
         return;
     }
   }

@@ -30,32 +30,11 @@ class BookmarksStore {
 
     const section = this.findSection(parent);
     if (!section) {
-      Debug.error("updateSection missing section", parent.name, parent.id);
+      Debug.error("addToSection missing section", parent.name, parent.id);
       return;
     }
 
     section.children.splice(0, 0, newLink);
-
-    this.saveSections();
-  }
-
-  public insertBefore(newLink: Link, parent: Section, child: Link) {
-    Debug.log("insertBefore", newLink.name, parent.name, child.name);
-
-    const section = this.findSection(parent);
-    if (!section) {
-      Debug.error("updateSection missing section", parent.name, parent.id);
-      return;
-    }
-
-    const link = this.findLink(section, child);
-    if (!link) {
-      Debug.error("Did not find", child.name, child.id);
-      return;
-    }
-
-    const idx = Math.max(0, section.children.indexOf(child));
-    section.children.splice(idx, 0, newLink);
 
     this.saveSections();
   }
@@ -65,7 +44,7 @@ class BookmarksStore {
 
     const section = this.findSection(parent);
     if (!section) {
-      Debug.error("updateSection missing section", parent.name, parent.id);
+      Debug.error("insertAfter missing section", parent.name, parent.id);
       return;
     }
 
@@ -84,12 +63,70 @@ class BookmarksStore {
     this.saveSections();
   }
 
-  public removeLink(parent: Section, child: Link) {
+  public insertBefore(newLink: Link, parent: Section, child: Link) {
+    Debug.log("insertBefore", newLink.name, parent.name, child.name);
+
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error("insertBefore missing section", parent.name, parent.id);
+      return;
+    }
+
+    const link = this.findLink(section, child);
+    if (!link) {
+      Debug.error("Did not find", child.name, child.id);
+      return;
+    }
+
+    const idx = Math.max(0, section.children.indexOf(child));
+    section.children.splice(idx, 0, newLink);
+
+    this.saveSections();
+  }
+
+  public insertSectionAfter(newSection: Section, parent: Section) {
+    Debug.log("insertSectionAfter", newSection.name, parent.name);
+
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error("insertSectionAfter missing section", parent.name, parent.id);
+      return;
+    }
+
+    const idx = Math.min(
+      this.sections.indexOf(section) + 1,
+      this.sections.length - 1
+    );
+    this.sections.splice(idx, 0, newSection);
+
+    this.saveSections();
+  }
+
+  public insertSectionBefore(newSection: Section, parent: Section) {
+    Debug.log("insertSectionBefore", newSection.name, parent.name);
+
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error(
+        "insertSectionBefore missing section",
+        parent.name,
+        parent.id
+      );
+      return;
+    }
+
+    const idx = Math.max(0, this.sections.indexOf(section));
+    this.sections.splice(idx, 0, newSection);
+
+    this.saveSections();
+  }
+
+  public removeLink(parent: Section, child: Link, save = true) {
     Debug.log("removeLink", child.name, child.id);
 
     const section = this.findSection(parent);
     if (!section) {
-      Debug.error("updateSection missing section", parent.name, parent.id);
+      Debug.error("removeLink missing section", parent.name, parent.id);
       return;
     }
 
@@ -102,10 +139,12 @@ class BookmarksStore {
     const idx = section.children.indexOf(child);
     section.children.splice(idx, 1);
 
-    this.saveSections();
+    if (save) {
+      this.saveSections();
+    }
   }
 
-  public removeSection(section: Section) {
+  public removeSection(section: Section, save = true) {
     Debug.log("removeSection", section.name, section.id);
 
     const found = this.findSection(section);
@@ -118,7 +157,9 @@ class BookmarksStore {
     const idx = this.state.sections.indexOf(found);
     this.state.sections.splice(idx, 1);
 
-    this.saveSections();
+    if (save) {
+      this.saveSections();
+    }
   }
 
   public upsertSection(section: Section) {
@@ -130,7 +171,7 @@ class BookmarksStore {
   public updateLink(parent: Section, child: Link) {
     const section = this.findSection(parent);
     if (!section) {
-      Debug.error("updateSection missing section", parent.name, parent.id);
+      Debug.error("updateLink missing section", parent.name, parent.id);
       return;
     }
 
