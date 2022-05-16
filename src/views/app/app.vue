@@ -19,6 +19,7 @@
     </div>
 
     <div class="app-content">
+      <color-picker />
       <bookmarks-page />
     </div>
   </div>

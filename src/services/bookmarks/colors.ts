@@ -3,7 +3,7 @@ export interface ColorInfo {
   color: string;
 }
 
-export const LinkColors: Record<string, ColorInfo> = {
+export const BookmarkColors: Record<string, ColorInfo> = {
   darkGray: { background: "#2c3e50", color: "white" },
   blue: { background: "#007bff", color: "white" },
   indigo: { background: "#6610f2", color: "white" },
@@ -24,3 +24,6 @@ export const LinkColors: Record<string, ColorInfo> = {
   warning: { background: "#ffc107", color: "black" },
   danger: { background: "#dc3545", color: "white" },
 };
+
+export const DefaultColorName = "primary";
+export const DefaultColor = BookmarkColors[DefaultColorName];

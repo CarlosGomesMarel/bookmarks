@@ -1,0 +1,25 @@
+@import "@/colors.scss";
+
+.color-picker {
+  display: flex;
+  flex-direction: row;
+  width: 10rem;
+
+  .vs__dropdown-menu,
+  .vs__dropdown-toggle {
+    width: 10rem !important; // TODO: Reduce on smaller screens
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .btn {
+    border-radius: 0 !important;
+  }
+
+  .color-option {
+    width: 100%;
+  }
+}

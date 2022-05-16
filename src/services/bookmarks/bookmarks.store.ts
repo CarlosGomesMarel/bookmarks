@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Util from "@/utility";
 import Vue from "vue";
-import { Link, LinkColors, Section } from ".";
+import { Link, BookmarkColors, Section } from ".";
 import LocalData from "@/support/local-storage";
 
 interface BookmarksState {
@@ -179,11 +179,13 @@ class BookmarksStore {
 
   private getColorInfo() {
     if (useRandomColor) {
-      const colors = Object.keys(LinkColors).map((key) => LinkColors[key]);
+      const colors = Object.keys(BookmarkColors).map(
+        (key) => BookmarkColors[key]
+      );
       return Util.getRandomElement(colors);
     }
 
-    return LinkColors.primary;
+    return BookmarkColors.primary;
   }
 
   private saveSections() {

@@ -6,11 +6,13 @@ import { $appInsightsService } from "@/services/app-insights/app-insights.servic
 
 import LinksTreeEditorComponent from "@/modals/bookmarks-editor-form/bookmarks-editor-form.vue";
 import LinksPageComponent from "@/components/bookmarks-page/bookmarks-page.vue";
+import ColorPickerComponent from "@/components/color-picker/color-picker.vue";
 
 @Component({
   components: {
     "bookmarks-editor-form": LinksTreeEditorComponent,
     "bookmarks-page": LinksPageComponent,
+    "color-picker": ColorPickerComponent,
   },
 })
 export default class AppComponent extends Vue {
@@ -31,7 +33,7 @@ export default class AppComponent extends Vue {
   }
 
   mounted() {
-    this.showLinksEditorForm();
+    // this.showLinksEditorForm();
   }
 
   showLinksEditorForm() {
