@@ -25,6 +25,15 @@
       <span class="icon" slot="leafNodeIcon"
         ><font-awesome-icon icon="link"
       /></span>
+      <span class="icon" slot="delNodeIcon"
+        ><font-awesome-icon icon="trash"
+      /></span>
+      <span class="icon" slot="editNodeIcon"
+        ><font-awesome-icon icon="edit"
+      /></span>
+      <span class="icon" slot="addTreeNodeIcon"
+        ><font-awesome-icon icon="plus"
+      /></span>
       <!--
       <span class="icon" slot="addTreeNodeIcon">📂</span>
       <span class="icon" slot="addLeafNodeIcon">＋</span>
