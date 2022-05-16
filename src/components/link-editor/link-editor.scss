@@ -1,0 +1,18 @@
+@import "@/colors.scss";
+
+.link-editor {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  margin-right: 5rem;
+
+  label {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  input {
+    width: 50rem;
+  }
+}

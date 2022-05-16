@@ -1,49 +1,28 @@
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
-import Browser from "@/support/browser";
 import { EventBus } from "@/support/event-bus";
 
-import ApiKeyFormComponent from "@/components/api-key-form/api-key-form.vue";
-import InputFormComponent from "@/components/input-form/input-form.vue";
-import InvestigationsGridComponent from "@/components/investigations-grid/investigations-grid.vue";
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
-import { $userStoryService } from "@/services/azure-devops/user-story.service";
+
+import BookmarksEditorComponent from "@/components/bookmarks-editor/bookmarks-editor.vue";
+import LinksPageComponent from "@/components/bookmarks-page/bookmarks-page.vue";
 
 @Component({
   components: {
-    "api-key-form": ApiKeyFormComponent,
-    "input-form": InputFormComponent,
-    "investigations-grid": InvestigationsGridComponent,
+    "bookmarks-editor": BookmarksEditorComponent,
+    "bookmarks-page": LinksPageComponent,
   },
 })
 export default class AppComponent extends Vue {
-  options = {
-    showApiKey: Browser.getBoolParam("showApiKey"),
-  };
+  options = {};
 
   $refs = {
-    apiKeyForm: {} as Modal,
+    linksEditorForm: {} as Modal,
   };
 
-  hasAccess = {
-    userStory: {
-      value: false,
-      loaded: false,
-    },
-  };
+  helpLink = `mailto:carlos.gomes@marel.com?subject=Bookmarks Help`;
 
-  helpLink = `mailto:carlos.gomes@marel.com?subject=Insights Monitor Help`;
-
-  get showUserLink() {
-    return this.hasAccess.userStory.loaded && !this.hasAccess.userStory.value;
-  }
-
-  @Watch("hasAccess", { immediate: true, deep: true })
-  onHasAccessChanged() {
-    if (!this.hasAccess.userStory) {
-      this.showApiKeyForm();
-    }
-  }
+  showEditor = false;
 
   created() {
     Debug.setDebugModule("app", this);
@@ -51,39 +30,13 @@ export default class AppComponent extends Vue {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     $appInsightsService.setVueInstance((this as any).$appInsights);
     $appInsightsService.trackPageView("app");
-
-    EventBus.Instance.$on(EventBus.UserStoryApiKeyChanged, async () => {
-      await this.checkUserStoryAccess();
-    });
-
-    EventBus.Instance.$on(EventBus.UserStoriesLoaded, async () => {
-      // Check user story access once have user stories
-      await this.checkUserStoryAccess();
-      this.hasAccess.userStory.loaded = true;
-    });
-
-    this.checkUserStoryAccess();
   }
 
-  mounted() {
-    if (this.options.showApiKey) {
-      this.showApiKeyForm();
-    }
+  showBookmarksEditor() {
+    this.showEditor = true;
   }
 
-  showApiKeyForm() {
-    if (this.$refs.apiKeyForm) {
-      this.$refs.apiKeyForm.show();
-    }
-  }
-
-  hideApiKeyForm() {
-    if (this.$refs.apiKeyForm) {
-      this.$refs.apiKeyForm.hide();
-    }
-  }
-
-  private async checkUserStoryAccess() {
-    this.hasAccess.userStory.value = await $userStoryService.checkAccess();
+  onCloseEditor() {
+    this.showEditor = false;
   }
 }

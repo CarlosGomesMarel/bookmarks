@@ -9,10 +9,13 @@ function decode(s: string) {
   return decodeURIComponent(s);
 }
 
-function parseValue(s: string) {
-  if (s.indexOf('"') === 0) {
+function parseValue(rawValue: string) {
+  if (rawValue.indexOf('"') === 0) {
     // This is a quoted cookie as according to RFC2068, unescape...
-    s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+    rawValue = rawValue
+      .slice(1, -1)
+      .replace(/\\"/g, '"')
+      .replace(/\\\\/g, "\\");
   }
 
   try {
@@ -20,9 +23,18 @@ function parseValue(s: string) {
     // Replace server-side written pluses with spaces.
     // If we can't decode the cookie, ignore it, it's unusable.
     // If we can't parse the cookie, ignore it, it's unusable.
-    s = decodeURIComponent(s.replace(pluses, " "));
-    return JSON.parse(s);
+    const decodedValue = decodeURIComponent(rawValue.replace(pluses, " "));
+    return JSON.parse(decodedValue);
   } catch (e) {
+    // console.error("parseValue", e);
+    // console.log(rawValue);
+  }
+
+  try {
+    return JSON.parse(rawValue);
+  } catch (e) {
+    // console.error("parseValue", e);
+    // console.log(rawValue);
     return null;
   }
 }

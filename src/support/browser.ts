@@ -32,15 +32,15 @@ const isMobile = {
 
 function getIEVersion() {
   const ua = window.navigator.userAgent;
-  if (ua.indexOf('Trident/7.0') > 0) return 11;
-  else if (ua.indexOf('Trident/6.0') > 0) return 10;
-  else if (ua.indexOf('Trident/5.0') > 0) return 9;
+  if (ua.indexOf("Trident/7.0") > 0) return 11;
+  else if (ua.indexOf("Trident/6.0") > 0) return 10;
+  else if (ua.indexOf("Trident/5.0") > 0) return 9;
   else return 0; // not IE9, 10 or 11
 }
 
 function isEdge() {
   try {
-    return window.navigator.userAgent.indexOf('Edge') > -1;
+    return window.navigator.userAgent.indexOf("Edge") > -1;
   } catch (e) {
     return false;
   }
@@ -49,7 +49,7 @@ function isEdge() {
 function parseValue(s: string) {
   if (s.indexOf('"') === 0) {
     // This is a quoted cookie as according to RFC2068, unescape...
-    s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+    s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
   }
 
   try {
@@ -57,7 +57,7 @@ function parseValue(s: string) {
     // Replace server-side written pluses with spaces.
     // If we can't decode the cookie, ignore it, it's unusable.
     // If we can't parse the cookie, ignore it, it's unusable.
-    s = decodeURIComponent(s.replace(pluses, ' '));
+    s = decodeURIComponent(s.replace(pluses, " "));
     return JSON.parse(s);
   } catch (e) {
     e;
@@ -96,7 +96,7 @@ export default class Browser {
     defaultValue = defaultValue || false;
     const value = Browser.getStorageItem(key, defaultValue);
     if (value && value != undefined)
-      return value === true || value == 'true' || value == '1';
+      return value === true || value == "true" || value == "1";
     return false;
   }
 
@@ -104,12 +104,12 @@ export default class Browser {
     if ($route) {
       if ($route.params) {
         const value = $route.params[key] || null;
-        if (value && value != '') return value;
+        if (value && value != "") return value;
       }
 
       if ($route.query) {
         const value = $route.query[key] || null;
-        if (value && value != '') return value;
+        if (value && value != "") return value;
       }
 
       return Browser.getParam(key, defaultValue);
@@ -118,13 +118,13 @@ export default class Browser {
 
   static getRouteParam<T>($route: any, key: string, defaultValue: T): T {
     const value = Browser._getRouteParam($route, key, defaultValue);
-    if (value && value != '') {
-      if (typeof defaultValue == 'boolean') {
-        return ((value == '1' || value == 'true') as any) as T;
+    if (value && value != "") {
+      if (typeof defaultValue == "boolean") {
+        return (value == "1" || value == "true") as any as T;
       }
 
-      if (typeof defaultValue == 'number') {
-        return (parseInt(value, 10) as any) as T;
+      if (typeof defaultValue == "number") {
+        return parseInt(value, 10) as any as T;
       }
     }
     return value as T;
@@ -148,7 +148,7 @@ export default class Browser {
     defaultValue: boolean
   ): boolean {
     const value = Browser._getRouteParam($route, key, defaultValue);
-    return value == 'true' || value == '1';
+    return value == "true" || value == "1";
   }
 
   static getIntRouteParam(
@@ -168,26 +168,26 @@ export default class Browser {
 
       // vue router doesn not populate the window.location.search
       if (!queryStr) {
-        queryStr = window.location.href || '';
-        const idx = queryStr.indexOf('?');
+        queryStr = window.location.href || "";
+        const idx = queryStr.indexOf("?");
         if (idx == -1) return defaultValue;
         queryStr = queryStr.substr(idx);
       }
 
-      const params = queryStr.replace('?', '');
+      const params = queryStr.replace("?", "");
       let idx = queryStr
         .toLowerCase()
-        .replace('?', '')
-        .indexOf(key + '=');
+        .replace("?", "")
+        .indexOf(key + "=");
       if (idx != -1) {
         idx += key.length + 1;
-        let idxEnd = params.indexOf('&', idx);
+        let idxEnd = params.indexOf("&", idx);
         if (idxEnd == -1) idxEnd = params.length;
         const value = params.substr(idx, idxEnd - idx);
-        if (value && value != '') return value;
+        if (value && value != "") return value;
       }
     } catch (e) {
-      Debug.error('getParam error', e);
+      Debug.error("getParam error", e);
     }
     return defaultValue;
   }
@@ -202,27 +202,27 @@ export default class Browser {
 
   static getBoolParam(key: string, defaultValue = false) {
     try {
-      const value = Browser.getParam(key, '');
-      if (value == '') return defaultValue;
-      return value == 'true' || value == '1';
+      const value = Browser.getParam(key, "");
+      if (value == "") return defaultValue;
+      return value == "true" || value == "1";
     } catch (e) {
-      Debug.error('getBoolParam error', e);
+      Debug.error("getBoolParam error", e);
     }
     return defaultValue;
   }
 
   static getIntParam(key: string, defaultValue = 0) {
     try {
-      const value = Browser.getParam(key, '');
-      if (value == '') return defaultValue;
+      const value = Browser.getParam(key, "");
+      if (value == "") return defaultValue;
       return parseInt(value, 10);
     } catch (e) {
-      Debug.error('getIntParam error', e);
+      Debug.error("getIntParam error", e);
     }
     return defaultValue;
   }
 
-  static openUrl(url: string, target = '_blank') {
+  static openUrl(url: string, target = "_blank") {
     const win = window.open(url, target);
     win.focus();
   }
@@ -234,4 +234,29 @@ export default class Browser {
   static decode(s: string) {
     return decodeURIComponent(s);
   }
+
+  static colors = {
+    darkGray: { background: "#2c3e50", color: "white" },
+    blue: { background: "#007bff", color: "white" },
+    indigo: { background: "#6610f2", color: "white" },
+    purple: { background: "#6f42c1", color: "white" },
+    pink: { background: "#e83e8c", color: "black" },
+    red: { background: "#dc3545", color: "white" },
+    orange: { background: "#fd7e14", color: "black" },
+    yellow: { background: "#ffc107", color: "black" },
+    green: { background: "#28a745", color: "white" },
+    teal: { background: "#20c997", color: "black" },
+    cyan: { background: "#17a2b8", color: "black" },
+    white: { background: "#fff", color: "black" },
+    gray: { background: "#6c757d", color: "black" },
+    "gray-dark": { background: "#343a40", color: "black" },
+    primary: { background: "#007bff", color: "white" },
+    secondary: { background: "#6c757d", color: "white" },
+    success: { background: "#28a745", color: "white" },
+    info: { background: "#17a2b8", color: "black" },
+    warning: { background: "#ffc107", color: "black" },
+    danger: { background: "#dc3545", color: "white" },
+    light: { background: "#f8f9fa", color: "black" },
+    dark: { background: "#343a40", color: "white" },
+  };
 }

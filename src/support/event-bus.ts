@@ -3,10 +3,6 @@ import Vue from "vue";
 const eventBusInstance = new Vue();
 
 export const EventBus = {
-  TimeApiKeyChanged: "ApiKeyChanged",
-  InvestigationsLoaded: "InvestigationsLoaded",
-  UserStoryApiKeyChanged: "UserStoryApiKeyChanged",
-  UserStoriesLoaded: "UserStoriesLoaded",
   Changed: "changed",
   Deleted: "deleted",
   Loaded: "loaded",

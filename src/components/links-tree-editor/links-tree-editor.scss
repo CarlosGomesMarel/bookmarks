@@ -1,0 +1,10 @@
+@import "@/colors.scss";
+
+.links-tree-editor {
+  height: 80vh;
+  overflow-y: auto;
+
+  .icon {
+    padding-right: 0.25rem;
+  }
+}

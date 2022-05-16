@@ -1,4 +1,4 @@
-# Insights Monitor application
+# Bookmarks application
 Also builds to Electron App.
 
 ## Project setup
