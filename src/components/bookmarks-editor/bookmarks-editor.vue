@@ -10,6 +10,10 @@
         <h3>Edit link</h3>
         <link-editor :section="section" :link="link" @changed="onLinkChanged" />
       </div>
+      <div v-else-if="section" class="editor-column">
+        <h3>Edit section</h3>
+        <section-editor :section="section" @changed="onSectionChanged" />
+      </div>
       <div v-else class="editor-column">
         <!-- no selection -->
       </div>

@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import { Link, BookmarkColors, DefaultColorName } from "@/services/bookmarks";
+import {
+  BookmarkColors,
+  DefaultColorName,
+  Bookmark,
+} from "@/services/bookmarks";
 
 @Component({
   name: "color-picker",
   components: {},
 })
 export default class ColorPickerComponent extends Vue {
-  @Prop() private link: Link;
+  @Prop() private link: Bookmark;
 
   private colorValue = this.colors.find(
     (item) => item.name == DefaultColorName
@@ -19,7 +24,7 @@ export default class ColorPickerComponent extends Vue {
     return keys.map((key) => {
       return {
         name: key,
-        backgroundColor: BookmarkColors[key].background,
+        backgroundColor: BookmarkColors[key].backgroundColor,
         color: BookmarkColors[key].color,
       };
     });
