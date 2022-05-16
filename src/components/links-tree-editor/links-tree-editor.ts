@@ -9,15 +9,42 @@ import { Component, Vue } from "vue-property-decorator";
 
 import { Tree } from "vue-tree-list";
 
-import { $bookmarksStore, Link, Section } from "@/services/bookmarks";
+import { $bookmarksStore, Bookmark, Link, Section } from "@/services/bookmarks";
+
+enum DropType {
+  before = "Before",
+  after = "After",
+  on = "On",
+}
+
+interface TreeNode extends Bookmark {
+  isLeaf: boolean;
+  parent: TreeNode;
+}
+
+interface DropInfo {
+  node: TreeNode;
+  src: TreeNode;
+  target: TreeNode;
+}
+
+function getNodeName(node: any): string {
+  {
+    if (node.isLeaf) {
+      return `[🍃 ${node.name}]`;
+    }
+
+    return `[ 📂 ${node.name} ]`;
+  }
+}
 
 @Component({
   name: "links-tree-editor",
   components: {},
 })
 export default class LinksTreeEditorComponent extends Vue {
-  section: Section = null;
-  link: Link = null;
+  section: TreeNode = null;
+  link: TreeNode = null;
 
   get sections() {
     return $bookmarksStore.sections;
@@ -41,7 +68,7 @@ export default class LinksTreeEditorComponent extends Vue {
     }
 
     const node = change.node;
-    Debug.log("onChangeName", node.name, node.isLeaf, node);
+    Debug.log("onChangeName", getNodeName(node), node.isLeaf, node);
 
     if (node.isLeaf) {
       $bookmarksStore.updateLink(node.parent, node);
@@ -50,10 +77,10 @@ export default class LinksTreeEditorComponent extends Vue {
     }
   }
 
-  onClick(node: any) {
-    console.log("onClick", node.name, node.id, node.isLeaf);
+  onClick(node: TreeNode) {
+    console.log("onClick", getNodeName(node), node.id, node.isLeaf);
 
-    const [sectionObj, linkObj] = this.getSectionLink(node);
+    const [sectionObj, linkObj] = this.getSectionLinkNodes(node);
     this.section = sectionObj;
     this.link = linkObj;
 
@@ -67,38 +94,138 @@ export default class LinksTreeEditorComponent extends Vue {
     console.log("onAddNode", arg1, arg2, arg3);
   }
 
-  onDeleteNode(node: any) {
-    Debug.log("onDeleteNode", node.name, node.name, node.isLeaf);
+  onDeleteNode(node: TreeNode) {
+    Debug.log(
+      "onDeleteNode",
+      getNodeName(node),
+      getNodeName(node),
+      node.isLeaf
+    );
 
-    const [sectionObj, linkObj] = this.getSectionLink(node);
+    const [section, link] = this.getSectionLink(node);
 
-    if (this.section?.id == sectionObj.id && this.link?.id == linkObj?.id) {
+    if (this.section?.id == section.id && this.link?.id == link?.id) {
       this.section = null;
       this.link = null;
       this.$emit("selected", null, null);
     }
 
     if (node.isLeaf) {
-      $bookmarksStore.removeLink(sectionObj, linkObj);
+      $bookmarksStore.removeLink(section, link);
     } else {
-      $bookmarksStore.removeSection(sectionObj);
+      $bookmarksStore.removeSection(section);
     }
   }
 
-  onDropNode(arg1: any, arg2: any, arg3: any) {
-    console.log("onDropNode", arg1, arg2, arg3);
+  onDropNode(dropInfo: DropInfo) {
+    this.handleDrop(DropType.on, dropInfo);
   }
 
-  onDropAfter(arg1: any, arg2: any, arg3: any) {
-    console.log("onDropAfter", arg1, arg2, arg3);
+  onDropBefore(dropInfo: DropInfo) {
+    this.handleDrop(DropType.before, dropInfo);
   }
 
-  private getSectionLink(node: any) {
+  onDropAfter(dropInfo: DropInfo) {
+    this.handleDrop(DropType.after, dropInfo);
+  }
+
+  private handleDrop(dropType: DropType, dropInfo: DropInfo) {
+    const node = dropInfo.node;
+    const source = dropInfo.src;
+    const target = dropInfo.target;
+
+    console.error(
+      dropType,
+      getNodeName(node),
+      getNodeName(source),
+      getNodeName(target)
+    );
+
+    if (node.isLeaf) {
+      this.handleLinkDropped(dropType, node, source, target);
+    } else {
+      // TODO: handle section dropped.
+    }
+  }
+
+  private handleLinkDropped(
+    dropType: DropType,
+    node: TreeNode,
+    source: TreeNode,
+    target: TreeNode
+  ) {
+    // When dragged to different section, the parent is already updated.
+    node.parent = source;
+
+    const [section, link] = this.getSectionLink(node);
+    if (!section || !link) {
+      Debug.error("Missing section/link for", getNodeName(node), node.id);
+      return;
+    }
+
+    const destination = this.getSectionLinkInfo(target);
+
+    $bookmarksStore.removeLink(section, link);
+
+    switch (dropType) {
+      case DropType.before:
+        $bookmarksStore.insertBefore(
+          link,
+          destination.section,
+          destination.link
+        );
+        return;
+
+      case DropType.after:
+        $bookmarksStore.insertBefore(
+          link,
+          destination.section,
+          destination.link
+        );
+        return;
+
+      case DropType.on:
+        if (target.isLeaf) {
+          $bookmarksStore.insertBefore(
+            link,
+            destination.section,
+            destination.link
+          );
+        } else {
+          $bookmarksStore.addToSection(link, destination.section);
+        }
+        return;
+
+      default:
+        console.error("Unhandled", dropType, node);
+        return;
+    }
+  }
+
+  private getSectionLinkNodes(node: TreeNode): [TreeNode, TreeNode] {
     if (node.isLeaf) {
       return [node.parent, node];
     } else {
       return [node, null];
     }
+  }
+
+  private getSectionLink(node: TreeNode): [Section, Link] {
+    const [sectionObj, linkObj] = this.getSectionLinkNodes(node);
+
+    const section = $bookmarksStore.findSection(sectionObj);
+    const link = linkObj ? $bookmarksStore.findLink(section, linkObj) : null;
+
+    return [section, link];
+  }
+
+  private getSectionLinkInfo(node: TreeNode) {
+    const [section, link] = this.getSectionLink(node);
+
+    return {
+      section: section,
+      link: link,
+    };
   }
 
   private prepareTreeLink(link: Link) {
@@ -111,6 +238,8 @@ export default class LinksTreeEditorComponent extends Vue {
     const linkObj = <any>link;
     linkObj.isLeaf = true;
     linkObj.editNodeDisabled = true;
+    linkObj.addTreeNodeDisabled = true;
+    linkObj.addLeafNodeDisabled = true;
     return linkObj;
   }
 

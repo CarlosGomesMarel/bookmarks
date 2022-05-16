@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Util from "@/utility";
 import Vue from "vue";
-import { Link, BookmarkColors, Section } from ".";
+import { Link, BookmarkColors, Section, Bookmark } from ".";
 import LocalData from "@/support/local-storage";
 
 interface BookmarksState {
@@ -25,12 +25,26 @@ class BookmarksStore {
     this.load();
   }
 
-  public removeLink(parent: Section, child: Link) {
-    Debug.log("removeLink", child.name, child.id);
+  public addToSection(newLink: Link, parent: Section) {
+    Debug.log("addToSection", newLink.name, parent.name);
 
     const section = this.findSection(parent);
     if (!section) {
-      Debug.error("Did not find section", parent.name, parent.id);
+      Debug.error("updateSection missing section", parent.name, parent.id);
+      return;
+    }
+
+    section.children.splice(0, 0, newLink);
+
+    this.saveSections();
+  }
+
+  public insertBefore(newLink: Link, parent: Section, child: Link) {
+    Debug.log("insertBefore", newLink.name, parent.name, child.name);
+
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error("updateSection missing section", parent.name, parent.id);
       return;
     }
 
@@ -40,7 +54,52 @@ class BookmarksStore {
       return;
     }
 
-    const idx = section.children.indexOf(link);
+    const idx = Math.max(0, section.children.indexOf(child));
+    section.children.splice(idx, 0, newLink);
+
+    this.saveSections();
+  }
+
+  public insertAfter(newLink: Link, parent: Section, child: Link) {
+    Debug.log("insertAfter", newLink.name, parent.name, child.name);
+
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error("updateSection missing section", parent.name, parent.id);
+      return;
+    }
+
+    const link = this.findLink(section, child);
+    if (!link) {
+      Debug.error("Did not find", child.name, child.id);
+      return;
+    }
+
+    const idx = Math.min(
+      section.children.indexOf(child) + 1,
+      section.children.length - 1
+    );
+    section.children.splice(idx, 0, newLink);
+
+    this.saveSections();
+  }
+
+  public removeLink(parent: Section, child: Link) {
+    Debug.log("removeLink", child.name, child.id);
+
+    const section = this.findSection(parent);
+    if (!section) {
+      Debug.error("updateSection missing section", parent.name, parent.id);
+      return;
+    }
+
+    const link = this.findLink(section, child);
+    if (!link) {
+      Debug.error("Did not find", child.name, child.id);
+      return;
+    }
+
+    const idx = section.children.indexOf(child);
     section.children.splice(idx, 1);
 
     this.saveSections();
@@ -111,7 +170,7 @@ class BookmarksStore {
     this.saveSections();
   }
 
-  findLink(section: Section, link: Link) {
+  findLink(section: Section, link: Bookmark) {
     return section.children.find((item) => {
       if (link.id && item.id) {
         return item.id === link.id;
@@ -120,7 +179,7 @@ class BookmarksStore {
     });
   }
 
-  findSection(section: Section) {
+  findSection(section: Bookmark) {
     return this.state.sections.find((item) => {
       if (section.id && item.id) {
         return item.id === section.id;

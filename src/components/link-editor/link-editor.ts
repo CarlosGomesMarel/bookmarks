@@ -14,12 +14,19 @@ export default class LinkEditorComponent extends Vue {
   @Prop() private section: Section;
   @Prop() private link: Link;
 
+  private previousLink: Link;
+
   showNameError = false;
   showUrlError = false;
   disabled = false;
 
   @Watch("link", { immediate: false, deep: true })
   onLinkChanged() {
+    if (this.previousLink !== this.link) {
+      // New link has been set.
+      this.previousLink = this.link;
+      return;
+    }
     this.$emit("changed", this.section, this.link);
   }
 
