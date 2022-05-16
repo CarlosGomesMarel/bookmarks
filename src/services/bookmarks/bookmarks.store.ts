@@ -111,7 +111,7 @@ class BookmarksStore {
     this.saveSections();
   }
 
-  private findLink(section: Section, link: Link) {
+  findLink(section: Section, link: Link) {
     return section.children.find((item) => {
       if (link.id && item.id) {
         return item.id === link.id;
@@ -120,7 +120,7 @@ class BookmarksStore {
     });
   }
 
-  private findSection(section: Section) {
+  findSection(section: Section) {
     return this.state.sections.find((item) => {
       if (section.id && item.id) {
         return item.id === section.id;

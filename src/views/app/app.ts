@@ -4,15 +4,13 @@ import { EventBus } from "@/support/event-bus";
 
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
 
-import LinksTreeEditorComponent from "@/modals/bookmarks-editor-form/bookmarks-editor-form.vue";
+import BookmarksEditorComponent from "@/components/bookmarks-editor/bookmarks-editor.vue";
 import LinksPageComponent from "@/components/bookmarks-page/bookmarks-page.vue";
-import ColorPickerComponent from "@/components/color-picker/color-picker.vue";
 
 @Component({
   components: {
-    "bookmarks-editor-form": LinksTreeEditorComponent,
+    "bookmarks-editor": BookmarksEditorComponent,
     "bookmarks-page": LinksPageComponent,
-    "color-picker": ColorPickerComponent,
   },
 })
 export default class AppComponent extends Vue {
@@ -24,6 +22,8 @@ export default class AppComponent extends Vue {
 
   helpLink = `mailto:carlos.gomes@marel.com?subject=Bookmarks Help`;
 
+  showEditor = true;
+
   created() {
     Debug.setDebugModule("app", this);
 
@@ -32,19 +32,7 @@ export default class AppComponent extends Vue {
     $appInsightsService.trackPageView("app");
   }
 
-  mounted() {
-    // this.showLinksEditorForm();
-  }
-
-  showLinksEditorForm() {
-    if (this.$refs.linksEditorForm) {
-      this.$refs.linksEditorForm.show();
-    }
-  }
-
-  hideLinksEditorForm() {
-    if (this.$refs.linksEditorForm) {
-      this.$refs.linksEditorForm.hide();
-    }
+  showBookmarksEditor() {
+    this.showEditor = true;
   }
 }

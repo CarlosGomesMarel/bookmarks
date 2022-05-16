@@ -22,7 +22,7 @@
       >
         <template v-slot:selected-option="color">
           <span
-            class="btn link-url selected-color"
+            class="selected-color"
             :style="{
               backgroundColor: color.backgroundColor,
               color: color.color + ' !important',

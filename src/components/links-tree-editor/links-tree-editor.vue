@@ -8,15 +8,14 @@
   <div class="links-tree-editor">
     <vue-tree-list
       @click="onClick"
-      @change-name="onChangeName"
       @delete-node="onDeleteNode"
       :model="treeData"
-      default-tree-node-name="new node"
-      default-leaf-node-name="new leaf"
+      default-tree-node-name="New Section"
+      default-leaf-node-name="New Bookmark"
       :default-expanded="true"
     >
       <template v-slot:leafNameDisplay="slotProps">
-        <span>
+        <span :title="slotProps.model.href">
           {{ slotProps.model.name }}
         </span>
       </template>

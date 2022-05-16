@@ -43,6 +43,11 @@ export default class ColorPickerComponent extends Vue {
   }
 
   set color(value: any) {
+    if (this.link) {
+      this.link.color = value.color;
+      this.link.backgroundColor = value.backgroundColor;
+    }
+
     this.colorValue = value;
   }
 

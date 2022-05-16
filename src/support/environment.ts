@@ -16,8 +16,8 @@
 env.js:
 
 var Env = {
-  VUE_APP_API_ORGANIZATION: "flintstones",
-  VUE_APP_API_PROJECT: "Fred"
+  VUE_APP_API_VERBOSE_MODE: true,
+  VUE_APP_APPINSIGHTS_INSTRUMENTATIONKEY: "****"
 };
  */
 

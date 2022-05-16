@@ -1,13 +1,11 @@
 <template>
   <div id="app" class="app">
-    <bookmarks-editor-form ref="linksEditorForm" />
-
     <div class="header">
       <span></span>
 
       <button
         class="btn btn-link"
-        @click="showLinksEditorForm"
+        @click="showBookmarksEditor"
         title="Show Settings"
       >
         <font-awesome-icon icon="cog" />
@@ -19,8 +17,8 @@
     </div>
 
     <div class="app-content">
-      <color-picker />
-      <bookmarks-page />
+      <bookmarks-editor v-if="showEditor" ref="linksEditorForm" />
+      <bookmarks-page v-else />
     </div>
   </div>
 </template>

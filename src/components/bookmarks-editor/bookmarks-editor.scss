@@ -1,0 +1,22 @@
+@import "@/colors.scss";
+
+.bookmarks-editor {
+  display: grid;
+  grid-template-rows: auto auto;
+
+  .editors {
+    display: grid;
+    grid-template-columns: 30rem 30rem 1fr;
+    margin: 2rem;
+    width: 90vw;
+
+    .editor-column {
+      margin: 1rem;
+
+      h5 {
+        margin-top: 1rem;
+        color: gray;
+      }
+    }
+  }
+}

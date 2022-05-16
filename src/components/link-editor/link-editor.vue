@@ -29,21 +29,10 @@
         <font-awesome-icon v-show="showUrlError" icon="exclamation-triangle" />
       </span>
 
-      <span></span>
-      <div>
-        <button class="btn btn-default" type="cancel" @click="cancel">
-          Cancel
-        </button>
+      <label for="name">Color</label>
+      <color-picker :link="link" @changed="onLinkChanged" />
 
-        <button
-          class="btn btn-primary"
-          type="submit"
-          :disabled="disabled"
-          @click="saveApiKey"
-        >
-          Save
-        </button>
-      </div>
+      <!-- TODO: tags -->
     </form>
   </div>
 </template>

@@ -1,29 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+/*
+Using vue-tree-list from https://github.com/ParadeTo/vue-tree-list
+*/
 import { v4 as uuidv4 } from "uuid";
 import { Component, Vue } from "vue-property-decorator";
 
 import { Tree } from "vue-tree-list";
 
-import { $bookmarksStore } from "@/services/bookmarks";
+import { $bookmarksStore, Link, Section } from "@/services/bookmarks";
 
 @Component({
   name: "links-tree-editor",
   components: {},
 })
 export default class LinksTreeEditorComponent extends Vue {
+  section: Section = null;
+  link: Link = null;
+
   get sections() {
     return $bookmarksStore.sections;
   }
 
   get treeData() {
-    this.prepareTreeMembers();
-    return new Tree(this.sections);
+    const sections = this.sections.map((section) =>
+      this.prepareTreekSection(section)
+    );
+    return new Tree(sections);
   }
 
   created() {
     Debug.setDebugModule("links-tree-editor", this);
-    // this.treeData = new Tree(this.sections);
   }
 
   onChangeName(change: any) {
@@ -44,6 +52,15 @@ export default class LinksTreeEditorComponent extends Vue {
 
   onClick(node: any) {
     console.log("onClick", node.name, node.id, node.isLeaf);
+
+    const [sectionObj, linkObj] = this.getSectionLink(node);
+    this.section = sectionObj;
+    this.link = linkObj;
+
+    const section = $bookmarksStore.findSection(sectionObj);
+    const link = linkObj ? $bookmarksStore.findLink(section, linkObj) : null;
+
+    this.$emit("selected", section, link);
   }
 
   onAddNode(arg1: any, arg2: any, arg3: any) {
@@ -53,10 +70,18 @@ export default class LinksTreeEditorComponent extends Vue {
   onDeleteNode(node: any) {
     Debug.log("onDeleteNode", node.name, node.name, node.isLeaf);
 
+    const [sectionObj, linkObj] = this.getSectionLink(node);
+
+    if (this.section?.id == sectionObj.id && this.link?.id == linkObj?.id) {
+      this.section = null;
+      this.link = null;
+      this.$emit("selected", null, null);
+    }
+
     if (node.isLeaf) {
-      $bookmarksStore.removeLink(node.parent, node);
+      $bookmarksStore.removeLink(sectionObj, linkObj);
     } else {
-      $bookmarksStore.removeSection(node);
+      $bookmarksStore.removeSection(sectionObj);
     }
   }
 
@@ -68,21 +93,41 @@ export default class LinksTreeEditorComponent extends Vue {
     console.log("onDropAfter", arg1, arg2, arg3);
   }
 
-  private prepareTreeMembers() {
-    this.sections.forEach((section) => {
-      if (!section.id) {
-        section.id = uuidv4();
-      }
+  private getSectionLink(node: any) {
+    if (node.isLeaf) {
+      return [node.parent, node];
+    } else {
+      return [node, null];
+    }
+  }
 
-      (<any>section).addTreeNodeDisabled = true;
+  private prepareTreeLink(link: Link) {
+    link = Object.assign({}, link);
 
-      section.children.forEach((link) => {
-        if (!link.id) {
-          link.id = uuidv4();
-        }
+    if (!link.id) {
+      link.id = uuidv4();
+    }
 
-        (<any>link).isLeaf = true;
-      });
+    const linkObj = <any>link;
+    linkObj.isLeaf = true;
+    linkObj.editNodeDisabled = true;
+    return linkObj;
+  }
+
+  private prepareTreekSection(section: Section) {
+    section = Object.assign({}, section);
+
+    if (!section.id) {
+      section.id = uuidv4();
+    }
+
+    const sectionObj = <any>section;
+    sectionObj.addTreeNodeDisabled = true;
+
+    section.children = section.children.map((link) => {
+      return this.prepareTreeLink(link);
     });
+
+    return section;
   }
 }
