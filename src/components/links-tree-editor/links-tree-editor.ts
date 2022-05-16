@@ -137,7 +137,7 @@ export default class LinksTreeEditorComponent extends Vue {
     const source = dropInfo.src;
     const target = dropInfo.target;
 
-    console.error(
+    Debug.log(
       dropType,
       getNodeName(node),
       getNodeName(source),
@@ -205,7 +205,7 @@ export default class LinksTreeEditorComponent extends Vue {
         return;
 
       default:
-        console.error("Unhandled", dropType, link);
+        Debug.error("Unhandled", dropType, link);
         return;
     }
   }
@@ -229,7 +229,7 @@ export default class LinksTreeEditorComponent extends Vue {
         return;
 
       default:
-        console.error("Unhandled", dropType, section);
+        Debug.error("Unhandled", dropType, section);
         return;
     }
   }
