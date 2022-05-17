@@ -63,6 +63,10 @@ export default class BookmarksEditorComponent extends Vue {
     this.showAddLinkModal();
   }
 
+  onSaveAddedLink(section: Section, link: Link) {
+    $bookmarksStore.addToSection(link, section);
+  }
+
   close() {
     this.$emit("close");
   }

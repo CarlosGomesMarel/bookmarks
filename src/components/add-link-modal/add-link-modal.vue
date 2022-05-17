@@ -14,6 +14,7 @@
           <label for="name">Name</label>
           <input
             name="name"
+            v-model="name"
             placeholder="Bookmark name"
             class="form-control"
             autocomplete="on"

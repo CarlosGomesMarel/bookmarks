@@ -4,6 +4,7 @@
       ref="addLinkModal"
       :section="added.section"
       :link="added.link"
+      @save="onSaveAddedLink"
     />
 
     <div class="editors">

@@ -17,9 +17,8 @@ export default class AddLinkModal extends Vue {
 
   showNameError = false;
   showUrlError = false;
-  disabled = false;
 
-  linkName: string = null;
+  name: string = null;
   href: string = null;
   color: ColorInfo = null;
 
@@ -27,20 +26,32 @@ export default class AddLinkModal extends Vue {
     modal: {} as Modal,
   };
 
+  get disabled() {
+    return !this.name || !this.href;
+  }
+
   created() {
     Debug.setDebugModule("add-link-modal", this);
   }
 
+  @Watch("name")
+  onNameChanged() {
+    this.showNameError = !this.name;
+  }
+
+  @Watch("href")
+  onUrlChanged() {
+    this.showUrlError = !this.href;
+  }
+
   @Watch("link")
   onLinkChanged() {
-    console.error(
-      this.section?.name,
-      this.link?.name,
-      this.link?.id,
-      this.link?.color,
-      this.link?.backgroundColor,
-      this.link
-    );
+    this.name = null;
+    this.href = null;
+    Vue.nextTick(() => {
+      this.showNameError = false;
+      this.showUrlError = false;
+    });
   }
 
   onColorChanged(color: ColorInfo) {
@@ -61,6 +72,9 @@ export default class AddLinkModal extends Vue {
   }
 
   save() {
+    this.link.name = this.name;
+    this.link.href = this.href;
     this.$emit("save", this.section, this.link);
+    this.hide();
   }
 }
