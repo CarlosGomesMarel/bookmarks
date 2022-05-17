@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Vue } from "vue-property-decorator";
 
+import AddLinkModal from "@/modals/add-link-modal/add-link-modal.vue";
+import LinkEditorModal from "@/modals/link-editor-modal/link-editor-modal.vue";
 import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
-import LinkEditorComponent from "@/components/link-editor/link-editor.vue";
-import SectionEditorComponent from "@/components/section-editor/section-editor.vue";
-import AddLinkModal from "@/components/add-link-modal/add-link-modal.vue";
+import SectionEditorModal from "@/modals/section-editor-modal/section-editor-modal.vue";
 
 import {
   $bookmarksStore,
@@ -15,10 +16,10 @@ import {
 
 @Component({
   components: {
-    "links-tree-editor": LinksTreeEditorComponent,
-    "link-editor": LinkEditorComponent,
-    "section-editor": SectionEditorComponent,
     "add-link-modal": AddLinkModal,
+    "link-editor-modal": LinkEditorModal,
+    "links-tree-editor": LinksTreeEditorComponent,
+    "section-editor-modal": SectionEditorModal,
   },
 })
 export default class BookmarksEditorComponent extends Vue {
@@ -29,6 +30,8 @@ export default class BookmarksEditorComponent extends Vue {
 
   $refs = {
     addLinkModal: {} as any,
+    linkEditModal: {} as any,
+    sectionEditModal: {} as any,
   };
 
   get sections() {
@@ -46,6 +49,19 @@ export default class BookmarksEditorComponent extends Vue {
   onSelected(section: Section, link: Link) {
     this.selected.section = section;
     this.selected.link = link;
+
+    if (this.selected.link) {
+      this.$refs.sectionEditModal.hide();
+      this.$refs.linkEditModal.show();
+    } else {
+      this.$refs.linkEditModal.hide();
+
+      if (this.selected.section) {
+        this.$refs.sectionEditModal.show();
+      } else {
+        this.$refs.sectionEditModal.hide();
+      }
+    }
   }
 
   onLinkChanged(section: Section, link: Link) {
@@ -60,7 +76,7 @@ export default class BookmarksEditorComponent extends Vue {
     this.added.section = section;
     this.added.link = link;
 
-    this.showAddLinkModal();
+    this.$refs.addLinkModal.show();
   }
 
   onSaveAddedLink(section: Section, link: Link) {
@@ -69,17 +85,5 @@ export default class BookmarksEditorComponent extends Vue {
 
   close() {
     this.$emit("close");
-  }
-
-  showAddLinkModal() {
-    if (this.$refs.addLinkModal) {
-      this.$refs.addLinkModal.show();
-    }
-  }
-
-  hideAddLinkModal() {
-    if (this.$refs.addLinkModal) {
-      this.$refs.addLinkModal.hide();
-    }
   }
 }

@@ -34,11 +34,11 @@
         @click="showBookmarksEditor"
         title="Manage bookmarks"
       >
-        <font-awesome-icon icon="cog" />
+        <font-awesome-icon icon="cog" size="2x" />
       </button>
 
       <a :href="helpLink" title="Contact Support" target="_blank">
-        <font-awesome-icon icon="question" />
+        <font-awesome-icon icon="question" size="2x" />
       </a>
     </div>
 

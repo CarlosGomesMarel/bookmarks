@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Vue } from "vue-property-decorator";
 
-import { EventBus } from "@/support/event-bus";
-
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
 
 import BookmarksEditorComponent from "@/components/bookmarks-editor/bookmarks-editor.vue";
@@ -27,7 +25,7 @@ export default class AppComponent extends Vue {
 
   helpLink = `mailto:carlos.gomes@marel.com?subject=Bookmarks Help`;
 
-  showEditor = false;
+  showEditor = true;
 
   created() {
     Debug.setDebugModule("app", this);
