@@ -2,10 +2,10 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import { $appInsightsService } from "@/services/app-insights/app-insights.service";
+import { $bookmarksStore, Section } from "@/services/bookmarks";
 
 import BookmarksEditorComponent from "@/components/bookmarks-editor/bookmarks-editor.vue";
 import LinksPageComponent from "@/components/bookmarks-page/bookmarks-page.vue";
-import { $bookmarksStore, Section } from "@/services/bookmarks";
 
 @Component({
   components: {
@@ -85,5 +85,9 @@ export default class HomeComponent extends Vue {
       }
     };
     reader.readAsText(file);
+  }
+
+  toggleHomePage() {
+    this.showEditor = !this.showEditor;
   }
 }

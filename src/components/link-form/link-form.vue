@@ -10,8 +10,8 @@
       role="button"
       @click="onClick"
       :style="{
-        backgroundColor: link.backgroundColor,
-        color: link.color + ' !important',
+        backgroundColor: backgroundColor,
+        color: color + ' !important',
       }"
       >{{ link.name }}
     </a>

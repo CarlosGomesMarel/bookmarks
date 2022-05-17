@@ -2,8 +2,8 @@
   <div
     class="color-picker"
     :style="{
-      backgroundColor: color.backgroundColor,
-      color: color.color + ' !important',
+      backgroundColor: colorValue.backgroundColor,
+      color: colorValue.color + ' !important',
     }"
   >
     <div>
@@ -16,7 +16,7 @@
         @input="onColorChanged"
         placeholder="Select color"
         :showDropDown="true"
-        v-model="color"
+        v-model="colorValue"
         class="colors-select"
         label="name"
       >

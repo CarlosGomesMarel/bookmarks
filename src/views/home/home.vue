@@ -2,11 +2,16 @@
 <template>
   <div id="home" class="home">
     <div class="header">
-      <span></span>
+      <div class="logo">
+        <button class="btn btn-link" @click="toggleHomePage" title="Home">
+          <font-awesome-icon icon="bars" size="2x" />
+        </button>
+      </div>
 
       <input
         name="filter"
         v-model="filter"
+        v-show="!showEditor"
         placeholder="Search bookmarks"
         class="form-control"
         autocomplete="on"
@@ -18,6 +23,7 @@
       <button
         class="btn btn-link manage-bookmarks"
         @click="showBookmarksEditor"
+        v-show="!showEditor"
         title="Manage bookmarks"
       >
         <font-awesome-icon icon="edit" size="2x" />
@@ -32,12 +38,13 @@
         id="export-to-json"
         title="Export bookmarks"
         ref="export"
+        v-show="!showEditor"
       >
         <font-awesome-icon icon="file-export" />
         Export Bookmarks
       </a>
 
-      <div>
+      <div v-show="!showEditor">
         <input
           type="file"
           ref="file"

@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-import { Component, Prop, Vue } from "vue-property-decorator";
+
+// Refrence v-select from https://vue-select.org/
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import {
   BookmarkColors,
-  DefaultColorName,
   Bookmark,
   ColorInfo,
+  DefaultColorName,
 } from "@/services/bookmarks";
 
 @Component({
@@ -14,6 +16,7 @@ import {
   components: {},
 })
 export default class ColorPickerComponent extends Vue {
+  @Prop() private section: Bookmark;
   @Prop() private link: Bookmark;
 
   private colorValue: ColorInfo = this.colors.find(
@@ -31,30 +34,28 @@ export default class ColorPickerComponent extends Vue {
     });
   }
 
-  get color() {
+  @Watch("link", { immediate: true, deep: true })
+  onLinkChanged() {
     if (this.link) {
-      const found = this.colors.find(
-        (item) =>
-          this.link.color &&
-          this.link.backgroundColor &&
-          item.color == this.link.color &&
-          item.backgroundColor == this.link.backgroundColor
-      );
+      const found = this.findColor(this.link.color, this.link.backgroundColor);
       if (found) {
-        return found;
+        this.colorValue = found;
+        return;
       }
     }
 
-    return this.colorValue;
-  }
-
-  set color(value: any) {
-    if (this.link) {
-      this.link.color = value.color;
-      this.link.backgroundColor = value.backgroundColor;
+    if (this.section) {
+      const found = this.findColor(
+        this.section.color,
+        this.section.backgroundColor
+      );
+      if (found) {
+        this.colorValue = found;
+        return;
+      }
     }
 
-    this.colorValue = value;
+    this.colorValue = this.colors.find((item) => item.name == DefaultColorName);
   }
 
   created() {
@@ -62,11 +63,29 @@ export default class ColorPickerComponent extends Vue {
   }
 
   onColorChanged() {
-    // TODO:
-    this.$emit("changed", this.color);
+    if (this.link) {
+      this.link.color = this.colorValue.color;
+      this.link.backgroundColor = this.colorValue.backgroundColor;
+    }
+
+    this.$emit("changed", this.colorValue);
   }
 
   dropdownShouldOpen() {
     return true;
+  }
+
+  private findColor(color: string, backgroundColor: string) {
+    if (!color || !backgroundColor) {
+      return null;
+    }
+
+    return this.colors.find(
+      (item) =>
+        color &&
+        backgroundColor &&
+        item.color == color &&
+        item.backgroundColor == backgroundColor
+    );
   }
 }

@@ -1,17 +1,35 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import { $bookmarksStore, Link } from "@/services/bookmarks";
+import {
+  $bookmarksStore,
+  DefaultColor,
+  Link,
+  Section,
+} from "@/services/bookmarks";
 
 @Component({
   name: "link-form",
   components: {},
 })
 export default class LinkFormComponent extends Vue {
+  @Prop() private section: Section;
   @Prop() private link: Link;
 
   created() {
     Debug.setDebugModule("link-form", this);
+  }
+
+  get backgroundColor() {
+    return (
+      this.link.backgroundColor ||
+      this.section?.backgroundColor ||
+      DefaultColor.backgroundColor
+    );
+  }
+
+  get color() {
+    return this.link.color || this.section?.color || DefaultColor.color;
   }
 
   onClick() {
