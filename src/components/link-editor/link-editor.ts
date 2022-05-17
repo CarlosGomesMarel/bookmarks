@@ -27,6 +27,7 @@ export default class LinkEditorComponent extends Vue {
       this.previousLink = this.link;
       return;
     }
+
     this.$emit("changed", this.section, this.link);
   }
 

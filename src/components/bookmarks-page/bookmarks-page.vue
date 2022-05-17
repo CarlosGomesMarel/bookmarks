@@ -19,7 +19,7 @@
             class="link-container"
             :key="'section-' + sectionIdx + '-link-' + index"
           >
-            <link-form :link="link" />
+            <link-form :section="section" :link="link" />
           </div>
         </template>
       </div>

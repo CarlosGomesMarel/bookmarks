@@ -2,16 +2,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { orderBy } from "lodash";
 
-import Util from "@/utility";
 import Vue from "vue";
-import {
-  Link,
-  BookmarkColors,
-  Section,
-  Bookmark,
-  DefaultColor,
-  LinkInfo,
-} from ".";
+import { Link, Section, Bookmark, LinkInfo } from ".";
 import LocalData from "@/support/local-storage";
 import { DefaultBookmarks } from "./default-bookmarks";
 
@@ -21,7 +13,6 @@ interface BookmarksState {
 }
 
 const BookmarksKey = "bookmarks";
-const useRandomColor = false;
 
 class BookmarksStore {
   private state = Vue.observable<BookmarksState>({
@@ -47,6 +38,10 @@ class BookmarksStore {
     return links;
   }
 
+  get linkInfos() {
+    return this.getLinkInfos(this.sections);
+  }
+
   get recentBookmarks() {
     return orderBy(
       this.links.filter((item) => item.clickCount),
@@ -64,6 +59,8 @@ class BookmarksStore {
 
     const section = this.findSection(parent);
     section.children.splice(0, 0, newLink);
+
+    this.replaceDuplicateLink(section, newLink, this.sections);
     this.saveSections();
 
     return this.findLink(section, newLink);
@@ -221,13 +218,6 @@ class BookmarksStore {
     }
   }
 
-  public upsertSection(section: Section) {
-    const response = this.commitSection(section);
-
-    this.saveSections();
-    return response;
-  }
-
   public updateLink(parent: Section, child: Link) {
     parent = this.findSection(parent);
     const found = this.findLink(parent, child);
@@ -236,10 +226,12 @@ class BookmarksStore {
 
     found.backgroundColor = child.backgroundColor?.trim();
     found.color = child.color?.trim();
-    found.href = child.href;
-    found.name = child.name;
+    found.href = child.href?.trim();
+    found.name = child.name?.trim();
     found.tags = child.tags;
     found.timestamp = child.timestamp;
+
+    this.replaceDuplicateLink(parent, found, this.sections);
 
     this.saveSections();
   }
@@ -251,13 +243,33 @@ class BookmarksStore {
 
     found.backgroundColor = section.backgroundColor?.trim();
     found.color = section.color?.trim();
-    found.name = section.name;
+    found.name = section.name?.trim();
     found.tags = section.tags;
     found.timestamp = section.timestamp;
 
-    this.updateChildrenColors(found);
+    this.saveSections();
+  }
+
+  public upsertSection(section: Section) {
+    const response = this.commitSection(section);
 
     this.saveSections();
+    return response;
+  }
+
+  private getLinkInfos(sections: Section[]) {
+    const results: LinkInfo[] = [];
+
+    sections.forEach((section) => {
+      section.children.forEach((link) => {
+        results.push({
+          section: section,
+          link: link,
+        });
+      });
+    });
+
+    return results;
   }
 
   private load() {
@@ -271,14 +283,10 @@ class BookmarksStore {
 
   private loadBookmarks(sections: Section[]) {
     sections.forEach((section) => {
+      section.name = section.name?.trim();
+
       if (!section.id) {
         section.id = uuidv4();
-      }
-
-      if (!section.color) {
-        const colorInfo = this.getColorInfo();
-        section.backgroundColor = colorInfo.backgroundColor;
-        section.color = colorInfo.color;
       }
 
       section.children.forEach((link) => {
@@ -286,12 +294,12 @@ class BookmarksStore {
           link.id = uuidv4();
         }
 
-        if (!link.color) {
-          link.backgroundColor = section.backgroundColor;
-          link.color = section.color;
-        }
+        link.name = link.name?.trim();
+        link.href = link.href?.trim();
       });
     });
+
+    this.replaceDuplicateLinks(sections);
 
     this.state.sections.splice(0, this.state.sections.length, ...sections);
   }
@@ -315,34 +323,67 @@ class BookmarksStore {
     }
   }
 
-  private getColorInfo() {
-    if (useRandomColor) {
-      const colors = Object.keys(BookmarkColors).map(
-        (key) => BookmarkColors[key]
-      );
-      return Util.getRandomElement(colors);
-    }
+  private replaceDuplicateLinks(sections: Section[]) {
+    const linkInfos = this.getLinkInfos(sections);
+    while (linkInfos.length > 0) {
+      const info = linkInfos[0];
+      linkInfos.splice(0, 1);
 
-    return BookmarkColors.primary;
+      const link = info.link;
+      const matchingLinks = linkInfos.filter(
+        (item) =>
+          item.link !== link &&
+          item.link.name == link.name &&
+          item.link.href == link.href
+      );
+
+      matchingLinks.forEach((duplicate) => {
+        const idx = duplicate.section.children.indexOf(duplicate.link);
+        if (idx != -1) {
+          const oldLink = duplicate.section.children[idx];
+          duplicate.section.children.splice(idx, 1, link);
+
+          const found = linkInfos.find((item) => item.link == oldLink);
+          const foundIdx = linkInfos.indexOf(found);
+          if (foundIdx != -1) {
+            linkInfos.splice(foundIdx, 1);
+          }
+        }
+      });
+    }
+  }
+
+  private replaceDuplicateLink(
+    section: Section,
+    link: Link,
+    sections: Section[]
+  ) {
+    const linkInfos = this.getLinkInfos(sections);
+    const matchingLinks = linkInfos.filter(
+      (item) =>
+        item.link !== link &&
+        item.link.name == link.name &&
+        item.link.href == link.href
+    );
+
+    matchingLinks.forEach((duplicate) => {
+      const idx = duplicate.section.children.indexOf(duplicate.link);
+      if (idx != -1) {
+        const oldLink = duplicate.section.children[idx];
+        duplicate.section.children.splice(idx, 1, link);
+
+        const found = linkInfos.find((item) => item.link == oldLink);
+        const foundIdx = linkInfos.indexOf(found);
+        if (foundIdx != -1) {
+          linkInfos.splice(foundIdx, 1);
+        }
+      }
+    });
   }
 
   private saveSections() {
     LocalData.save(BookmarksKey, JSON.stringify(this.state.sections));
     this.state.refreshCount++;
-  }
-
-  private updateChildrenColors(section: Section) {
-    const links = section.children.filter(
-      (item) =>
-        (item.backgroundColor == DefaultColor.backgroundColor &&
-          item.color == DefaultColor.color) ||
-        (!item.backgroundColor && !item.color)
-    );
-
-    links.forEach((link) => {
-      link.backgroundColor = section.backgroundColor;
-      link.color = section.color;
-    });
   }
 }
 

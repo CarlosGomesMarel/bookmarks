@@ -40,6 +40,7 @@ Vue.use(VueTreeList);
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
+  faBars,
   faBug,
   faCog,
   faEdit,
@@ -63,6 +64,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
+  faBars,
   faBug,
   faCog,
   faEdit,

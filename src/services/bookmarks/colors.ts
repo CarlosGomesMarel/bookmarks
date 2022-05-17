@@ -9,7 +9,7 @@ export const BookmarkColors: Record<string, ColorInfo> = {
   blue: { backgroundColor: "#007bff", color: "white" },
   indigo: { backgroundColor: "#6610f2", color: "white" },
   purple: { backgroundColor: "#6f42c1", color: "white" },
-  pink: { backgroundColor: "#e83e8c", color: "black" },
+  pink: { backgroundColor: "#e83e8c", color: "white" },
   red: { backgroundColor: "#dc3545", color: "white" },
   orange: { backgroundColor: "#fd7e14", color: "black" },
   yellow: { backgroundColor: "#ffc107", color: "black" },
