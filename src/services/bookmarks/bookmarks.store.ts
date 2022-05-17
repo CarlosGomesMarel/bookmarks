@@ -1,13 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { v4 as uuidv4 } from "uuid";
+import { orderBy } from "lodash";
 
 import Util from "@/utility";
 import Vue from "vue";
-import { Link, BookmarkColors, Section, Bookmark, DefaultColor } from ".";
+import {
+  Link,
+  BookmarkColors,
+  Section,
+  Bookmark,
+  DefaultColor,
+  LinkInfo,
+} from ".";
 import LocalData from "@/support/local-storage";
 import { DefaultBookmarks } from "./default-bookmarks";
 
 interface BookmarksState {
+  refreshCount: number;
   sections: Section[];
 }
 
@@ -16,11 +25,34 @@ const useRandomColor = false;
 
 class BookmarksStore {
   private state = Vue.observable<BookmarksState>({
+    refreshCount: 0,
     sections: [],
   });
 
   get sections() {
+    if (this.state.refreshCount) {
+      // trigger refresh on save;
+    }
+
     return this.state.sections;
+  }
+
+  get links() {
+    const links: Link[] = [];
+
+    this.sections.forEach((section) => {
+      links.push(...section.children);
+    });
+
+    return links;
+  }
+
+  get recentBookmarks() {
+    return orderBy(
+      this.links.filter((item) => item.clickCount),
+      ["clickCount"],
+      ["desc"]
+    ).slice(0, 5);
   }
 
   constructor() {
@@ -51,6 +83,31 @@ class BookmarksStore {
     }
 
     return found;
+  }
+
+  public findLinkById(id: string) {
+    const found: LinkInfo[] = [];
+
+    this.state.sections.forEach((section) => {
+      const links = section.children.filter((link) => link.id === id);
+      if (links.length) {
+        const linkInfos = links.map(
+          (item) =>
+            <LinkInfo>{
+              section: section,
+              link: item,
+            }
+        );
+        found.push(...linkInfos);
+      }
+    });
+
+    if (!found.length) {
+      Debug.error("Missing link with id", id);
+      throw `Missing link with id ${id}`;
+    }
+
+    return found[0];
   }
 
   public findSection(section: Bookmark) {
@@ -271,6 +328,7 @@ class BookmarksStore {
 
   private saveSections() {
     LocalData.save(BookmarksKey, JSON.stringify(this.state.sections));
+    this.state.refreshCount++;
   }
 
   private updateChildrenColors(section: Section) {

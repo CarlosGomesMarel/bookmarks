@@ -48,7 +48,7 @@ export const DefaultBookmarks: Section[] = <any[]>[
         tags: [],
       },
       {
-        name: "Simulator Edge",
+        name: "Simulator IOT Edge",
         href: "https://portal.azure.com/#blade/Microsoft_Azure_IotHub/StandaloneFrameBlade/path/%2Fdevices%2Fdevice%3FdeviceId%3Dmd-i-euw-pno-sim-edge/title/md-i-euw-pno-sim-edge/resourceId/%2Fsubscriptions%2F095f3138-cbfa-4777-ab4d-760b92d586ee%2FresourceGroups%2Fmd-i-euw-iot-rg%2Fproviders%2FMicrosoft.Devices%2FIotHubs%2Fmd-i-euw-iot-ih",
         tags: [],
       },
@@ -139,7 +139,7 @@ export const DefaultBookmarks: Section[] = <any[]>[
         tags: ["Portal"],
       },
       {
-        name: "Simulator Edge",
+        name: "Simulator IOT Edge",
         href: "https://portal.azure.com/#blade/Microsoft_Azure_IotHub/StandaloneFrameBlade/path/%2Fdevices%2Fdevice%3FdeviceId%3Dmd-i-euw-pno-sim-edge/title/md-i-euw-pno-sim-edge/resourceId/%2Fsubscriptions%2F095f3138-cbfa-4777-ab4d-760b92d586ee%2FresourceGroups%2Fmd-i-euw-iot-rg%2Fproviders%2FMicrosoft.Devices%2FIotHubs%2Fmd-i-euw-iot-ih",
         tags: ["Portal"],
       },

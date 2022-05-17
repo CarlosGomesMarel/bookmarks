@@ -8,6 +8,7 @@
       :title="link.href"
       class="btn link-url"
       role="button"
+      @click="onClick"
       :style="{
         backgroundColor: link.backgroundColor,
         color: link.color + ' !important',

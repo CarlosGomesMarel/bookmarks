@@ -98,8 +98,10 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-console.log("Environment variables");
+if (Env.LogEnvironment) {
+  console.log("Environment variables");
 
-for (const key in process.env) {
-  console.log(key, process.env[key]);
+  for (const key in process.env) {
+    console.log(key, process.env[key]);
+  }
 }
