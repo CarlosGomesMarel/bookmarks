@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Vue } from "vue-property-decorator";
 
-import AddLinkModal from "@/components/add-link-modal/add-link-modal.vue";
+import AddLinkModal from "@/modals/add-link-modal/add-link-modal.vue";
 import LinkEditorModal from "@/modals/link-editor-modal/link-editor-modal.vue";
 import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
 import SectionEditorModal from "@/modals/section-editor-modal/section-editor-modal.vue";
