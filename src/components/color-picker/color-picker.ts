@@ -6,6 +6,7 @@ import {
   BookmarkColors,
   DefaultColorName,
   Bookmark,
+  ColorInfo,
 } from "@/services/bookmarks";
 
 @Component({
@@ -15,7 +16,7 @@ import {
 export default class ColorPickerComponent extends Vue {
   @Prop() private link: Bookmark;
 
-  private colorValue = this.colors.find(
+  private colorValue: ColorInfo = this.colors.find(
     (item) => item.name == DefaultColorName
   );
 
