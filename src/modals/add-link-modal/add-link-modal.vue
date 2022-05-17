@@ -46,7 +46,11 @@
           </span>
 
           <label for="name">Color</label>
-          <color-picker :link="link" @changed="onColorChanged" />
+          <color-picker
+            :section="section"
+            :link="link"
+            @changed="onColorChanged"
+          />
           <span></span>
 
           <!-- TODO: tags -->

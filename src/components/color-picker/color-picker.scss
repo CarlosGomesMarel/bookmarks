@@ -10,6 +10,7 @@
   .vs__dropdown-menu,
   .vs__dropdown-toggle {
     width: 10rem !important; // TODO: Reduce on smaller screens
+    max-height: 15rem !important;
   }
 
   .vs__search {

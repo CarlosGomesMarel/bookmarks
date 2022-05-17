@@ -30,7 +30,7 @@
       </span>
 
       <label for="name">Color</label>
-      <color-picker :link="link" @changed="onLinkChanged" />
+      <color-picker :section="section" :link="link" @changed="onLinkChanged" />
 
       <!-- TODO: tags -->
     </form>

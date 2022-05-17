@@ -1,7 +1,7 @@
 <template>
   <div>
     <modal
-      height="300"
+      height="400"
       width="750"
       :clickToClose="true"
       key="link-editor-modal"
