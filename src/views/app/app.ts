@@ -16,6 +16,7 @@ import { $bookmarksStore, Section } from "@/services/bookmarks";
 export default class AppComponent extends Vue {
   options = {};
 
+  filter: string = null;
   exportLink: string = null;
 
   $refs = {

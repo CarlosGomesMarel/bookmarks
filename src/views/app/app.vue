@@ -3,6 +3,24 @@
     <div class="header">
       <span></span>
 
+      <input
+        name="filter"
+        v-model="filter"
+        placeholder="Search bookmarks"
+        class="form-control"
+        autocomplete="on"
+        type="text"
+      />
+
+      <button
+        class="btn btn-link manage-bookmarks"
+        @click="showBookmarksEditor"
+        title="Manage bookmarks"
+      >
+        <font-awesome-icon icon="edit" size="2x" />
+        Manage Bookmarks
+      </button>
+
       <a
         v-on:mousedown="exportToJson()"
         :href="exportLink"
@@ -29,22 +47,15 @@
         </button>
       </div>
 
-      <button
-        class="btn btn-link"
-        @click="showBookmarksEditor"
-        title="Manage bookmarks"
-      >
-        <font-awesome-icon icon="cog" size="2x" />
-      </button>
-
       <a :href="helpLink" title="Contact Support" target="_blank">
-        <font-awesome-icon icon="question" size="2x" />
+        <font-awesome-icon icon="question" />
+        Help
       </a>
     </div>
 
     <div class="app-content">
       <bookmarks-editor v-if="showEditor" @close="onCloseEditor" />
-      <bookmarks-page v-else />
+      <bookmarks-page :filter="filter" v-else />
     </div>
   </div>
 </template>

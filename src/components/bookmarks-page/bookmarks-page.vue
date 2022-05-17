@@ -1,6 +1,6 @@
 <template>
   <div class="bookmarks-page">
-    <template v-for="(section, sectionIdx) in sections">
+    <template v-for="(section, sectionIdx) in bookmarks">
       <h3 :key="'section-' + sectionIdx">{{ section.name }}</h3>
       <div class="link-wrapper" :key="'section-wrapper-' + sectionIdx">
         <template v-for="(link, index) in section.children">
