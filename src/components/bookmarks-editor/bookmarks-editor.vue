@@ -52,6 +52,26 @@
           <br />
           <br />
         </p>
+
+        <h3>Backup and Restore</h3>
+
+        <p>
+          It is recommend that you <b>backup your bookmarks</b>.
+          <br />
+          <br />
+          <b class="danger"
+            >Clearing your browser cache will delete your bookmarks.</b
+          >
+          <br />
+          <br />
+          To backup click <b>Export Bookmarks</b> and save the downloaded file.
+          <br />
+          <br />
+          To restore the bookmarks, click <b>Import Bookmarks</b> and select
+          your bookmarks file.
+          <br />
+          <br />
+        </p>
       </div>
     </div>
 

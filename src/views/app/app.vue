@@ -3,10 +3,36 @@
     <div class="header">
       <span></span>
 
+      <a
+        v-on:mousedown="exportToJson()"
+        :href="exportLink"
+        class="btn btn-default"
+        download="bookmarks.json"
+        id="export-to-json"
+        title="Export bookmarks"
+        ref="export"
+      >
+        <font-awesome-icon icon="file-export" />
+        Export Bookmarks
+      </a>
+
+      <div>
+        <input
+          type="file"
+          ref="file"
+          style="display: none"
+          @change="importBookmarks($event)"
+        />
+        <button class="btn btn-link" @click="$refs.file.click()">
+          <font-awesome-icon icon="file-import" />
+          Import Bookmarks
+        </button>
+      </div>
+
       <button
         class="btn btn-link"
         @click="showBookmarksEditor"
-        title="Show Settings"
+        title="Manage bookmarks"
       >
         <font-awesome-icon icon="cog" size="2x" />
       </button>
