@@ -3,21 +3,33 @@ import { Component, Vue } from "vue-property-decorator";
 import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
 import LinkEditorComponent from "@/components/link-editor/link-editor.vue";
 import SectionEditorComponent from "@/components/section-editor/section-editor.vue";
+import AddLinkModal from "@/components/add-link-modal/add-link-modal.vue";
 
-import { $bookmarksStore, Link, Section } from "@/services/bookmarks";
+import {
+  $bookmarksStore,
+  DefaultLinkInfo,
+  Link,
+  LinkInfo,
+  Section,
+} from "@/services/bookmarks";
 
 @Component({
   components: {
     "links-tree-editor": LinksTreeEditorComponent,
     "link-editor": LinkEditorComponent,
     "section-editor": SectionEditorComponent,
+    "add-link-modal": AddLinkModal,
   },
 })
 export default class BookmarksEditorComponent extends Vue {
   name: "bookmarks-editor";
 
-  link: Link = null;
-  section: Section = null;
+  selected: LinkInfo = Object.assign({}, DefaultLinkInfo);
+  added: LinkInfo = Object.assign({}, DefaultLinkInfo);
+
+  $refs = {
+    addLinkModal: {} as any,
+  };
 
   get sections() {
     return $bookmarksStore.sections;
@@ -32,9 +44,8 @@ export default class BookmarksEditorComponent extends Vue {
   }
 
   onSelected(section: Section, link: Link) {
-    console.log("onSelected", section?.name, link?.name);
-    this.section = section;
-    this.link = link;
+    this.selected.section = section;
+    this.selected.link = link;
   }
 
   onLinkChanged(section: Section, link: Link) {
@@ -45,7 +56,26 @@ export default class BookmarksEditorComponent extends Vue {
     $bookmarksStore.updateSection(section);
   }
 
+  onAddLink(section: Section, link: Link) {
+    this.added.section = section;
+    this.added.link = link;
+
+    this.showAddLinkModal();
+  }
+
   close() {
     this.$emit("close");
+  }
+
+  showAddLinkModal() {
+    if (this.$refs.addLinkModal) {
+      this.$refs.addLinkModal.show();
+    }
+  }
+
+  hideAddLinkModal() {
+    if (this.$refs.addLinkModal) {
+      this.$refs.addLinkModal.hide();
+    }
   }
 }

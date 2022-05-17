@@ -31,6 +31,8 @@ class BookmarksStore {
     const section = this.findSection(parent);
     section.children.splice(0, 0, newLink);
     this.saveSections();
+
+    return this.findLink(section, newLink);
   }
 
   public findLink(section: Section, link: Bookmark) {

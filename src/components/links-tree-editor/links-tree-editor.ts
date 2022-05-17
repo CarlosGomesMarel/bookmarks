@@ -9,7 +9,13 @@ import { Component, Vue } from "vue-property-decorator";
 
 import { Tree } from "vue-tree-list";
 
-import { $bookmarksStore, Bookmark, Link, Section } from "@/services/bookmarks";
+import {
+  $bookmarksStore,
+  Bookmark,
+  DefaultLink,
+  Link,
+  Section,
+} from "@/services/bookmarks";
 
 enum DropType {
   before = "Before",
@@ -20,6 +26,8 @@ enum DropType {
 interface TreeNode extends Bookmark {
   isLeaf: boolean;
   parent: TreeNode;
+
+  remove: () => void;
 }
 
 interface DropInfo {
@@ -81,7 +89,7 @@ export default class LinksTreeEditorComponent extends Vue {
   }
 
   onClick(node: TreeNode) {
-    console.log("onClick", getNodeName(node), node.id, node.isLeaf);
+    Debug.log("onClick", getNodeName(node), node.id, node.isLeaf);
 
     const [sectionObj, linkObj] = this.getSectionLinkNodes(node);
     this.section = sectionObj;
@@ -93,8 +101,21 @@ export default class LinksTreeEditorComponent extends Vue {
     this.$emit("selected", section, link);
   }
 
-  onAddNode(arg1: any, arg2: any, arg3: any) {
-    console.log("onAddNode", arg1, arg2, arg3);
+  onAddNode(node: TreeNode) {
+    Debug.log("onAddNode", getNodeName(node), getNodeName(node.parent));
+    node.remove();
+
+    const [sectionObj] = this.getSectionLinkNodes(node);
+    const section = $bookmarksStore.findSection(sectionObj);
+
+    let link: Link = Object.assign<Link>({}, DefaultLink);
+    link.id = uuidv4();
+    link.backgroundColor = section.backgroundColor;
+    link.color = section.color;
+
+    link = Vue.observable<Link>(link);
+
+    this.$emit("add-link", section, link);
   }
 
   onDeleteNode(node: TreeNode) {

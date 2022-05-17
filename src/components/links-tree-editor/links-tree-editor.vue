@@ -12,6 +12,7 @@
       @drop-before="onDropBefore"
       @click="onClick"
       @delete-node="onDeleteNode"
+      @add-node="onAddNode"
       :model="treeData"
       default-tree-node-name="New Section"
       default-leaf-node-name="New Bookmark"

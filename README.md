@@ -2,7 +2,7 @@
 Also builds to Electron App.
 
 # Repository:
-Repository:     https://github.com/CarlosGomesMarel/bookmarks/pull/3
+Repository:     https://github.com/CarlosGomesMarel/bookmarks
 Url:            https://black-hill-0b2ce4a1e.1.azurestaticapps.net/#/
 Azure App:      https://portal.azure.com/#@mareldigital.com/resource/subscriptions/a4168068-5051-4529-a67f-f363f912d0cf/resourcegroups/md-sb-bookmarks-rg/providers/Microsoft.Web/staticSites/md-sb-bookmarks-app/staticsite
 

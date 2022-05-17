@@ -1,4 +1,5 @@
 export interface ColorInfo {
+  name?: string;
   backgroundColor: string;
   color: string;
 }
