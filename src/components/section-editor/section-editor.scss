@@ -7,12 +7,36 @@
   align-content: space-around;
   margin-right: 5rem;
 
-  label {
-    margin-top: 1rem;
-    margin-bottom: 0.25rem;
-  }
+  form {
+    margin-top: 2rem;
+    margin-right: 2rem;
+    padding-right: 2rem;
+    width: 100%;
 
-  input {
-    width: 50rem;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: 5rem auto auto;
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+    align-items: center;
+
+    label {
+      color: $darkGray;
+      font-weight: normal;
+      justify-self: left;
+    }
+
+    input {
+      width: 50rem;
+    }
+
+    .fa-exclamation-triangle {
+      color: red;
+    }
+
+    button {
+      width: 10rem;
+      justify-self: right;
+    }
   }
 }
