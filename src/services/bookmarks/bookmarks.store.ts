@@ -3,7 +3,14 @@ import { v4 as uuidv4 } from "uuid";
 
 import Util from "@/utility";
 import Vue from "vue";
-import { Link, BookmarkColors, Section, Bookmark, DefaultColor } from ".";
+import {
+  Link,
+  BookmarkColors,
+  Section,
+  Bookmark,
+  DefaultColor,
+  LinkInfo,
+} from ".";
 import LocalData from "@/support/local-storage";
 import { DefaultBookmarks } from "./default-bookmarks";
 
@@ -51,6 +58,31 @@ class BookmarksStore {
     }
 
     return found;
+  }
+
+  public findLinkById(id: string) {
+    const found: LinkInfo[] = [];
+
+    this.state.sections.forEach((section) => {
+      const links = section.children.filter((link) => link.id === id);
+      if (links.length) {
+        const linkInfos = links.map(
+          (item) =>
+            <LinkInfo>{
+              section: section,
+              link: item,
+            }
+        );
+        found.push(...linkInfos);
+      }
+    });
+
+    if (!found.length) {
+      Debug.error("Missing link with id", id);
+      throw `Missing link with id ${id}`;
+    }
+
+    return found[0];
   }
 
   public findSection(section: Bookmark) {
