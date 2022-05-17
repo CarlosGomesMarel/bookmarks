@@ -13,7 +13,7 @@ import { $bookmarksStore, Section } from "@/services/bookmarks";
     "bookmarks-page": LinksPageComponent,
   },
 })
-export default class AppComponent extends Vue {
+export default class HomeComponent extends Vue {
   options = {};
 
   filter: string = null;
@@ -29,11 +29,11 @@ export default class AppComponent extends Vue {
   showEditor = false;
 
   created() {
-    Debug.setDebugModule("app", this);
+    Debug.setDebugModule("home", this);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     $appInsightsService.setVueInstance((this as any).$appInsights);
-    $appInsightsService.trackPageView("app");
+    $appInsightsService.trackPageView("home");
   }
 
   showBookmarksEditor() {

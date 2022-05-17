@@ -8,7 +8,7 @@ body {
   height: 100%;
 }
 
-#app {
+#home {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,11 +30,11 @@ hr {
   border-top-width: 2px;
 }
 
-.app {
+.home {
   .header {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 20rem auto auto auto auto;
+    grid-template-columns: 5rem 30rem 1fr auto auto auto auto;
     grid-column-gap: 1rem;
     align-items: center;
     margin-bottom: 0rem;
@@ -60,7 +60,7 @@ hr {
     }
   }
 
-  .app-content {
+  .home-content {
     display: grid;
     grid-template-rows: auto;
     grid-row-gap: 1rem;

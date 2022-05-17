@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import AppComponent from "@/views/app/app.vue";
+import HomeComponent from "@/views/home/home.vue";
 
 Vue.use(VueRouter);
 
@@ -8,7 +8,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "home",
-    component: AppComponent,
+    component: HomeComponent,
   },
 ];
 

@@ -1,5 +1,6 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div id="app" class="app">
+  <div id="home" class="home">
     <div class="header">
       <span></span>
 
@@ -11,6 +12,8 @@
         autocomplete="on"
         type="text"
       />
+
+      <span></span>
 
       <button
         class="btn btn-link manage-bookmarks"
@@ -53,12 +56,12 @@
       </a>
     </div>
 
-    <div class="app-content">
+    <div class="home-content">
       <bookmarks-editor v-if="showEditor" @close="onCloseEditor" />
       <bookmarks-page :filter="filter" v-else />
     </div>
   </div>
 </template>
 
-<script src="./app.ts"></script>
-<style lang="scss" src="./app.scss"></style>
+<script src="./home.ts"></script>
+<style lang="scss" src="./home.scss"></style>
