@@ -21,7 +21,11 @@ export default class LinksPageComponent extends Vue {
   }
 
   get recentLinks() {
-    return $bookmarksStore.sections;
+    return $bookmarksStore.recentBookmarks;
+  }
+
+  get showRecentLinks() {
+    return this.recentLinks.length > 0;
   }
 
   get bookmarks() {
