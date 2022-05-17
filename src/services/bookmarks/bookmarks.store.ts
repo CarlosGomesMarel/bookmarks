@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { v4 as uuidv4 } from "uuid";
 
 import Util from "@/utility";
@@ -119,6 +120,22 @@ class BookmarksStore {
     this.saveSections();
   }
 
+  public loadFromJson(json: string): [boolean, string] {
+    try {
+      const sections = JSON.parse(json);
+      if (!sections.length) {
+        return [false, "No bookmarks found"];
+      }
+
+      this.loadBookmarks(sections);
+      this.saveSections();
+
+      return [true, "Loaded bookmarks"];
+    } catch (err) {
+      return [false, "Failed to parse bookmarks " + err];
+    }
+  }
+
   public removeLink(parent: Section, child: Link, save = true) {
     Debug.log("removeLink", child.name, child.id);
 
@@ -188,6 +205,10 @@ class BookmarksStore {
   private load() {
     const sections = <Section[]>LocalData.get(BookmarksKey, []);
 
+    this.loadBookmarks(sections);
+  }
+
+  private loadBookmarks(sections: Section[]) {
     sections.forEach((section) => {
       if (!section.id) {
         section.id = uuidv4();

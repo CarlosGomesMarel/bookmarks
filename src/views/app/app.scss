@@ -34,7 +34,7 @@ hr {
   .header {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto auto auto auto;
     grid-column-gap: 1rem;
     align-items: center;
     margin-bottom: -1rem;
