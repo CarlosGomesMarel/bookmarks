@@ -24,7 +24,7 @@ export default class LinkEditorModal extends Vue {
     Debug.setDebugModule("link-editor-modal", this);
   }
 
-  onLinkChanged(section: Section, link: Link) {
+  onChanged(section: Section, link: Link) {
     this.$emit("changed", section, link);
   }
 

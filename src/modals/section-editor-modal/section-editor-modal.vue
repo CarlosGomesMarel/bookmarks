@@ -4,13 +4,13 @@
       height="300"
       width="750"
       :clickToClose="true"
-      key="link-editor-modal"
-      name="link-editor-modal"
+      key="section-editor-modal"
+      name="section-editor-modal"
       ref="modal"
     >
-      <div class="link-editor-modal">
-        <h3>Edit link</h3>
-        <link-editor :section="section" :link="link" @changed="onChanged" />
+      <div class="section-editor-modal">
+        <h3>Edit Section</h3>
+        <section-editor :section="section" @changed="onChanged" />
 
         <div class="footer">
           <span />
@@ -25,5 +25,5 @@
   </div>
 </template>
 
-<style lang="scss" src="./link-editor-modal.scss"></style>
-<script src="./link-editor-modal.ts"></script>
+<style lang="scss" src="./section-editor-modal.scss"></style>
+<script src="./section-editor-modal.ts"></script>

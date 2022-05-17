@@ -14,22 +14,16 @@
       @changed="onLinkChanged"
     />
 
+    <section-editor-modal
+      ref="sectionEditModal"
+      :section="selected.section"
+      @changed="onSectionChanged"
+    />
+
     <div class="editors">
       <div class="editor-column">
         <h3>Edit Bookmarks</h3>
         <links-tree-editor @selected="onSelected" @add-link="onAddLink" />
-      </div>
-
-      <div v-if="selected.link" class="editor-column"></div>
-      <div v-else-if="selected.section" class="editor-column">
-        <h3>Edit section</h3>
-        <section-editor
-          :section="selected.section"
-          @changed="onSectionChanged"
-        />
-      </div>
-      <div v-else class="editor-column">
-        <!-- no selection -->
       </div>
     </div>
 

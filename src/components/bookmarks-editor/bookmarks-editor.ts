@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Vue } from "vue-property-decorator";
 
 import AddLinkModal from "@/components/add-link-modal/add-link-modal.vue";
 import LinkEditorModal from "@/modals/link-editor-modal/link-editor-modal.vue";
 import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
-import SectionEditorComponent from "@/components/section-editor/section-editor.vue";
+import SectionEditorModal from "@/modals/section-editor-modal/section-editor-modal.vue";
 
 import {
   $bookmarksStore,
@@ -18,7 +19,7 @@ import {
     "add-link-modal": AddLinkModal,
     "link-editor-modal": LinkEditorModal,
     "links-tree-editor": LinksTreeEditorComponent,
-    "section-editor": SectionEditorComponent,
+    "section-editor-modal": SectionEditorModal,
   },
 })
 export default class BookmarksEditorComponent extends Vue {
@@ -30,6 +31,7 @@ export default class BookmarksEditorComponent extends Vue {
   $refs = {
     addLinkModal: {} as any,
     linkEditModal: {} as any,
+    sectionEditModal: {} as any,
   };
 
   get sections() {
@@ -49,14 +51,15 @@ export default class BookmarksEditorComponent extends Vue {
     this.selected.link = link;
 
     if (this.selected.link) {
+      this.$refs.sectionEditModal.hide();
       this.$refs.linkEditModal.show();
     } else {
       this.$refs.linkEditModal.hide();
 
       if (this.selected.section) {
-        // this.$refs.linkEditModal.show();
+        this.$refs.sectionEditModal.show();
       } else {
-        //this.$refs.linkEditModal.hide();
+        this.$refs.sectionEditModal.hide();
       }
     }
   }
@@ -73,7 +76,7 @@ export default class BookmarksEditorComponent extends Vue {
     this.added.section = section;
     this.added.link = link;
 
-    this.showAddLinkModal();
+    this.$refs.addLinkModal.show();
   }
 
   onSaveAddedLink(section: Section, link: Link) {
@@ -82,17 +85,5 @@ export default class BookmarksEditorComponent extends Vue {
 
   close() {
     this.$emit("close");
-  }
-
-  showAddLinkModal() {
-    if (this.$refs.addLinkModal) {
-      this.$refs.addLinkModal.show();
-    }
-  }
-
-  hideAddLinkModal() {
-    if (this.$refs.addLinkModal) {
-      this.$refs.addLinkModal.hide();
-    }
   }
 }
