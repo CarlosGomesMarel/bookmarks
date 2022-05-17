@@ -5,6 +5,7 @@ import Util from "@/utility";
 import Vue from "vue";
 import { Link, BookmarkColors, Section, Bookmark, DefaultColor } from ".";
 import LocalData from "@/support/local-storage";
+import { DefaultBookmarks } from "./default-bookmarks";
 
 interface BookmarksState {
   sections: Section[];
@@ -203,7 +204,10 @@ class BookmarksStore {
   }
 
   private load() {
-    const sections = <Section[]>LocalData.get(BookmarksKey, []);
+    let sections = <Section[]>LocalData.get(BookmarksKey, null);
+    if (sections === null) {
+      sections = DefaultBookmarks;
+    }
 
     this.loadBookmarks(sections);
   }
