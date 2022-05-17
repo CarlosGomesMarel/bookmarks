@@ -8,7 +8,6 @@ import {
   BookmarkColors,
   Bookmark,
   ColorInfo,
-  DefaultColor,
   DefaultColorName,
 } from "@/services/bookmarks";
 
@@ -56,7 +55,7 @@ export default class ColorPickerComponent extends Vue {
       }
     }
 
-    this.colorValue = DefaultColor;
+    this.colorValue = this.colors.find((item) => item.name == DefaultColorName);
   }
 
   created() {
