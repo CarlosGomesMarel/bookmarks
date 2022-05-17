@@ -1,9 +1,9 @@
 import { Component, Vue } from "vue-property-decorator";
 
-import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
-import LinkEditorComponent from "@/components/link-editor/link-editor.vue";
-import SectionEditorComponent from "@/components/section-editor/section-editor.vue";
 import AddLinkModal from "@/components/add-link-modal/add-link-modal.vue";
+import LinkEditorModal from "@/modals/link-editor-modal/link-editor-modal.vue";
+import LinksTreeEditorComponent from "@/components/links-tree-editor/links-tree-editor.vue";
+import SectionEditorComponent from "@/components/section-editor/section-editor.vue";
 
 import {
   $bookmarksStore,
@@ -15,10 +15,10 @@ import {
 
 @Component({
   components: {
-    "links-tree-editor": LinksTreeEditorComponent,
-    "link-editor": LinkEditorComponent,
-    "section-editor": SectionEditorComponent,
     "add-link-modal": AddLinkModal,
+    "link-editor-modal": LinkEditorModal,
+    "links-tree-editor": LinksTreeEditorComponent,
+    "section-editor": SectionEditorComponent,
   },
 })
 export default class BookmarksEditorComponent extends Vue {
@@ -29,6 +29,7 @@ export default class BookmarksEditorComponent extends Vue {
 
   $refs = {
     addLinkModal: {} as any,
+    linkEditModal: {} as any,
   };
 
   get sections() {
@@ -46,6 +47,18 @@ export default class BookmarksEditorComponent extends Vue {
   onSelected(section: Section, link: Link) {
     this.selected.section = section;
     this.selected.link = link;
+
+    if (this.selected.link) {
+      this.$refs.linkEditModal.show();
+    } else {
+      this.$refs.linkEditModal.hide();
+
+      if (this.selected.section) {
+        // this.$refs.linkEditModal.show();
+      } else {
+        //this.$refs.linkEditModal.hide();
+      }
+    }
   }
 
   onLinkChanged(section: Section, link: Link) {

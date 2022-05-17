@@ -7,20 +7,20 @@
       @save="onSaveAddedLink"
     />
 
+    <link-editor-modal
+      ref="linkEditModal"
+      :section="selected.section"
+      :link="selected.link"
+      @changed="onLinkChanged"
+    />
+
     <div class="editors">
       <div class="editor-column">
         <h3>Edit Bookmarks</h3>
         <links-tree-editor @selected="onSelected" @add-link="onAddLink" />
       </div>
 
-      <div v-if="selected.link" class="editor-column">
-        <h3>Edit link</h3>
-        <link-editor
-          :section="selected.section"
-          :link="selected.link"
-          @changed="onLinkChanged"
-        />
-      </div>
+      <div v-if="selected.link" class="editor-column"></div>
       <div v-else-if="selected.section" class="editor-column">
         <h3>Edit section</h3>
         <section-editor
