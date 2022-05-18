@@ -35,6 +35,8 @@ export default class LinkFormComponent extends Vue {
   onClick() {
     const linkInfo = $bookmarksStore.findLinkById(this.link.id);
 
+    linkInfo.link.timestamp = new Date();
+
     if (!linkInfo.link.clickCount) {
       linkInfo.link.clickCount = 0;
     }

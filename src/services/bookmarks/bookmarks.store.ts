@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { v4 as uuidv4 } from "uuid";
-import { orderBy } from "lodash";
+import { orderBy, uniqBy } from "lodash";
 
 import Vue from "vue";
 import { Link, Section, Bookmark, LinkInfo } from ".";
@@ -35,7 +35,7 @@ class BookmarksStore {
       links.push(...section.children);
     });
 
-    return links;
+    return uniqBy(links, (link) => link.id);
   }
 
   get linkInfos() {
@@ -43,11 +43,20 @@ class BookmarksStore {
   }
 
   get recentBookmarks() {
-    return orderBy(
-      this.links.filter((item) => item.clickCount),
-      ["clickCount"],
-      ["desc"]
-    ).slice(0, 5);
+    console.log("recentBookmarks");
+
+    const links = this.links.filter((item) => item.timestamp);
+    const linksByTimestamp = orderBy(links, ["timestamp"], ["desc"]).slice(
+      0,
+      5
+    );
+    const linksByClickCount = orderBy(links, ["clickCount"], ["desc"]).slice(
+      0,
+      5
+    );
+
+    const mergedLinks = [...linksByTimestamp, ...linksByClickCount].slice(0, 5);
+    return uniqBy(mergedLinks, (link) => link.id);
   }
 
   constructor() {
