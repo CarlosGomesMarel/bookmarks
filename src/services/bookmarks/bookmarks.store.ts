@@ -13,12 +13,15 @@ interface BookmarksState {
 }
 
 const BookmarksKey = "bookmarks";
+const MinDate = new Date(-8640000000000000);
 
 class BookmarksStore {
   private state = Vue.observable<BookmarksState>({
     refreshCount: 0,
     sections: [],
   });
+
+  recentCount: number = LocalData.get("recent-count", 5);
 
   get sections() {
     if (this.state.refreshCount) {
@@ -43,20 +46,11 @@ class BookmarksStore {
   }
 
   get recentBookmarks() {
-    console.log("recentBookmarks");
-
-    const links = this.links.filter((item) => item.timestamp);
-    const linksByTimestamp = orderBy(links, ["timestamp"], ["desc"]).slice(
+    const links = this.links.filter((item) => item.clickCount);
+    return orderBy(links, ["clickCount", "timestamp"], ["desc", "desc"]).slice(
       0,
-      5
+      this.recentCount
     );
-    const linksByClickCount = orderBy(links, ["clickCount"], ["desc"]).slice(
-      0,
-      5
-    );
-
-    const mergedLinks = [...linksByTimestamp, ...linksByClickCount].slice(0, 5);
-    return uniqBy(mergedLinks, (link) => link.id);
   }
 
   constructor() {
@@ -228,19 +222,23 @@ class BookmarksStore {
   }
 
   public updateLink(parent: Section, child: Link) {
-    parent = this.findSection(parent);
-    const found = this.findLink(parent, child);
+    const section = this.findSection(parent);
+    const link = this.findLink(section, child);
 
-    Debug.log("updateLink", found.name, found.id);
+    Debug.log("updateLink", link.name, link.id);
 
-    found.backgroundColor = child.backgroundColor?.trim();
-    found.color = child.color?.trim();
-    found.href = child.href?.trim();
-    found.name = child.name?.trim();
-    found.tags = child.tags;
-    found.timestamp = child.timestamp;
+    link.backgroundColor = child.backgroundColor?.trim();
+    link.color = child.color?.trim();
+    link.href = child.href?.trim();
+    link.name = child.name?.trim();
+    link.tags = child.tags;
+    link.timestamp = child.timestamp;
 
-    this.replaceDuplicateLink(parent, found, this.sections);
+    if (link.clickCount && !link.timestamp) {
+      link.timestamp = MinDate;
+    }
+
+    this.replaceDuplicateLink(section, link, this.sections);
 
     this.saveSections();
   }
@@ -301,6 +299,10 @@ class BookmarksStore {
       section.children.forEach((link) => {
         if (!link.id) {
           link.id = uuidv4();
+        }
+
+        if (link.clickCount && !link.timestamp) {
+          link.timestamp = MinDate;
         }
 
         link.name = link.name?.trim();
