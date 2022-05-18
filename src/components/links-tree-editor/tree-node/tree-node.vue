@@ -4,7 +4,7 @@
       v-if="isLeaf"
       :key="link.id"
       :title="link.href"
-      class="btn link-url"
+      class="btn link"
       role="button"
       @click="onClick"
       :style="{
