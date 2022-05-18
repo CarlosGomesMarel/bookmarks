@@ -1,0 +1,27 @@
+@import "@/colors.scss";
+
+.tree-node {
+  display: flex;
+  flex-direction: row;
+
+  .link {
+    min-width: 10rem;
+    /* max-width: 18rem; Used if have description */
+    margin-bottom: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 0;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    cursor: pointer;
+
+    .btn {
+      margin-right: 1rem;
+    }
+  }
+}

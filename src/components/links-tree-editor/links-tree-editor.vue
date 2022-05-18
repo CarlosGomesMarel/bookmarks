@@ -19,9 +19,11 @@
       :default-expanded="true"
     >
       <template v-slot:leafNameDisplay="slotProps">
-        <span :title="slotProps.model.href">
-          {{ slotProps.model.name }}
-        </span>
+        <link-node
+          @click="onClick(slotProps.model)"
+          :link="slotProps.model"
+          :section="slotProps.model.parent"
+        />
       </template>
       <span class="icon" slot="treeNodeIcon"
         ><font-awesome-icon icon="folder"
