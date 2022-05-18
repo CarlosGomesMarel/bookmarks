@@ -2,12 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import {
-  $bookmarksStore,
-  DefaultColor,
-  Link,
-  Section,
-} from "@/services/bookmarks";
+import { DefaultColor, Link, Section } from "@/services/bookmarks";
 
 @Component({
   name: "tree-node",
@@ -38,6 +33,7 @@ export default class TreeNodeComponent extends Vue {
   }
 
   onClick() {
+    // Already handled by tree view.
     // this.$emit("click", this.link);
   }
 }
