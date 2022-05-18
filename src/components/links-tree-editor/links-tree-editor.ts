@@ -9,6 +9,8 @@ import { Component, Vue } from "vue-property-decorator";
 
 import { Tree } from "vue-tree-list";
 
+import TreeNodeComponent from "./tree-node/tree-node.vue";
+
 import {
   $bookmarksStore,
   Bookmark,
@@ -51,7 +53,9 @@ function getNodeName(node: TreeNode) {
 
 @Component({
   name: "links-tree-editor",
-  components: {},
+  components: {
+    "link-node": TreeNodeComponent,
+  },
 })
 export default class LinksTreeEditorComponent extends Vue {
   section: TreeNode = null;

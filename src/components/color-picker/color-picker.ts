@@ -62,6 +62,7 @@ export default class ColorPickerComponent extends Vue {
     Debug.setDebugModule("color-picker", this);
   }
 
+  @Watch("colorValue")
   onColorChanged() {
     if (this.link) {
       this.link.color = this.colorValue.color;
