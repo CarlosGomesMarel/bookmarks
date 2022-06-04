@@ -16,6 +16,7 @@
         class="form-control"
         autocomplete="on"
         type="text"
+        autofocus
       />
 
       <span></span>
