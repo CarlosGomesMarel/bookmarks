@@ -6,6 +6,10 @@
 -->
 <template>
   <div class="links-tree-editor">
+    <button class="btn btn-link" @click="addSection">
+      <font-awesome-icon icon="file-import" />
+      Add New Section
+    </button>
     <vue-tree-list
       @drop="onDropNode"
       @drop-after="onDropAfter"

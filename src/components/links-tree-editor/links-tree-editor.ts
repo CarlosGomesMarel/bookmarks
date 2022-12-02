@@ -76,6 +76,23 @@ export default class LinksTreeEditorComponent extends Vue {
     Debug.setDebugModule("links-tree-editor", this);
   }
 
+  addSection() {
+    const link: Link = Object.assign<Link>({}, DefaultLink);
+    link.id = uuidv4();
+    link.name = "First bookmark";
+
+    const section: Section = {
+      children: [link],
+      name: "New Section",
+      tags: [],
+      backgroundColor: "",
+      color: "",
+      timestamp: undefined,
+      id: uuidv4(),
+    };
+    $bookmarksStore.insertSectionBefore(section, this.sections[0]);
+  }
+
   onChangeName(change: any) {
     if (!change.node) {
       // Completed.
