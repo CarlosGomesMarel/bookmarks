@@ -93,6 +93,20 @@ export default class LinksTreeEditorComponent extends Vue {
     $bookmarksStore.insertSectionBefore(section, this.sections[0]);
   }
 
+  resetChanges() {
+    this.sections.forEach((section) => {
+      section.backgroundColor = "";
+      section.color = "";
+      section.children.forEach((link) => {
+        link.backgroundColor = "";
+        link.color = "";
+        link.clickCount = 0;
+      });
+
+      $bookmarksStore.upsertSection(section);
+    });
+  }
+
   onChangeName(change: any) {
     if (!change.node) {
       // Completed.

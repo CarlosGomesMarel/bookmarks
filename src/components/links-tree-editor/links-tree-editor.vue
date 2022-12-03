@@ -10,6 +10,12 @@
       <font-awesome-icon icon="file-import" />
       Add New Section
     </button>
+
+    <button class="btn btn-link" @click="resetChanges">
+      <font-awesome-icon icon="file-import" />
+      Reset
+    </button>
+
     <vue-tree-list
       @drop="onDropNode"
       @drop-after="onDropAfter"

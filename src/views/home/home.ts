@@ -58,6 +58,10 @@ export default class HomeComponent extends Vue {
             return undefined;
           }
 
+          if (!value) {
+            return undefined;
+          }
+
           return value;
         },
         3
