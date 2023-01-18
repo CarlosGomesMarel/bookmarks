@@ -3,11 +3,18 @@ Also builds to Electron App.
 
 # Repository:
 Repository:     https://github.com/CarlosGomesMarel/bookmarks
-Url:            https://black-hill-0b2ce4a1e.1.azurestaticapps.net/#/
+Url:            https://gentle-grass-0b1856c03.2.azurestaticapps.net/#/
+Resource Group: md-sb-bookmarks-rg
 App:            md-sb-bookmarks-app
 Azure App:      https://portal.azure.com/#@mareldigital.com/resource/subscriptions/a4168068-5051-4529-a67f-f363f912d0cf/resourcegroups/md-sb-bookmarks-rg/providers/Microsoft.Web/staticSites/md-sb-bookmarks-app/staticsite
 
 # How to
+1. Create Static Web App
+2. Specify Other insteadh of Github, Azure Devops
+3. Create Statick web app
+4. Click `Manage deployment token`
+5. Update token under https://github.com/CarlosGomesMarel/bookmarks/settings/secrets/actions
+
 - https://endjin.com/blog/2021/08/how-to-deploy-vue-app-to-azure-static-web-apps-using-azure-devops-and-yaml
 
 
